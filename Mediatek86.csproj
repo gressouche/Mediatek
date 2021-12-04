@@ -89,9 +89,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="bdd\DAOCategorie.cs" />
+    <Compile Include="modele\DAODocuments.cs" />
     <Compile Include="bdd\DAOFactory.cs" />
-    <Compile Include="bdd\DAOPresse.cs" />
+    <Compile Include="modele\DAOPresse.cs" />
     <Compile Include="metier\Categorie.cs" />
     <Compile Include="metier\Document.cs" />
     <Compile Include="metier\Domaine.cs" />
@@ -133,8 +133,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="modele\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

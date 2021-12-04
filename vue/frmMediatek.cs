@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Mediatek86.bdd;
 using Mediatek86.metier;
 
+
 namespace Mediatek86
 {
     public partial class frmMediatek : Form
@@ -17,6 +18,8 @@ namespace Mediatek86
         static List<Categorie> lesCategories;
         static List<Domaine> lesDomaines;
         static List<Titre> lesTitres;
+        static List<Livre> lesLivres;
+
 
         static int afficheParutions;
 
@@ -31,7 +34,6 @@ namespace Mediatek86
             DAOFactory.creerConnection();
 
             // Chargement des objets en mémoire
-            lesCategories = DAOCategorie.getAllCategories();
             lesDomaines = DAOPresse.getAllDomaines();
             lesTitres = DAOPresse.getAllTitre();
 
@@ -102,6 +104,36 @@ namespace Mediatek86
                 }
             }
         }
+
+
+        //-----------------------------------------------------------
+        // ONGLET "LIVRES"
+        //-----------------------------------------------------------
+
+        private void tabLivres_Enter(object sender, EventArgs e)
+        {
+            // Chargement des objets en mémoire
+            lesCategories = DAODocuments.getAllCategories();
+            lesLivres = DAODocuments.getAllLivres();
+
+            // Affectation de la catégorie de public à chaque Livre
+            foreach (Livre livre in lesLivres)
+            {
+                Categorie categorie= DAODocuments.getCategorieByLivre(livre);
+                livre.LaCategorie=categorie;
+            }
+        }
+
+        private void btnRechercher_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txbTitre_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
 
     }
 }

@@ -31,30 +31,36 @@ namespace Mediatek86
         {
             this.tabOngletsApplication = new System.Windows.Forms.TabControl();
             this.tabParutions = new System.Windows.Forms.TabPage();
+            this.label3 = new System.Windows.Forms.Label();
             this.dgvParutions = new System.Windows.Forms.DataGridView();
+            this.numero = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dateParution = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.photo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.cbxTitres = new System.Windows.Forms.ComboBox();
             this.tabTitres = new System.Windows.Forms.TabPage();
-            this.dgvTitres = new System.Windows.Forms.DataGridView();
-            this.label2 = new System.Windows.Forms.Label();
-            this.cbxDomaines = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.dgvTitres = new System.Windows.Forms.DataGridView();
             this.idTitre = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nom = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.empruntable = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dateFin = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.periodicite = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.numero = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dateParution = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.photo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cbxDomaines = new System.Windows.Forms.ComboBox();
             this.tabLivres = new System.Windows.Forms.TabPage();
             this.tabDVD = new System.Windows.Forms.TabPage();
+            this.txbNumDoc = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txbTitre = new System.Windows.Forms.TextBox();
+            this.btnRechercher = new System.Windows.Forms.Button();
             this.tabOngletsApplication.SuspendLayout();
             this.tabParutions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvParutions)).BeginInit();
             this.tabTitres.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTitres)).BeginInit();
+            this.tabLivres.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabOngletsApplication
@@ -85,6 +91,16 @@ namespace Mediatek86
             this.tabParutions.UseVisualStyleBackColor = true;
             this.tabParutions.Enter += new System.EventHandler(this.tabParutions_Enter);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(163, 24);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(336, 20);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Visualisation des numéros reçus par titre";
+            // 
             // dgvParutions
             // 
             this.dgvParutions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -96,6 +112,24 @@ namespace Mediatek86
             this.dgvParutions.Name = "dgvParutions";
             this.dgvParutions.Size = new System.Drawing.Size(543, 235);
             this.dgvParutions.TabIndex = 2;
+            // 
+            // numero
+            // 
+            this.numero.HeaderText = "NUMERO";
+            this.numero.Name = "numero";
+            this.numero.Width = 60;
+            // 
+            // dateParution
+            // 
+            this.dateParution.HeaderText = "DATE DE PARUTION";
+            this.dateParution.Name = "dateParution";
+            this.dateParution.Width = 140;
+            // 
+            // photo
+            // 
+            this.photo.HeaderText = "EMPLACEMENT PHOTO";
+            this.photo.Name = "photo";
+            this.photo.Width = 300;
             // 
             // label1
             // 
@@ -131,6 +165,16 @@ namespace Mediatek86
             this.tabTitres.UseVisualStyleBackColor = true;
             this.tabTitres.Enter += new System.EventHandler(this.tabTitres_Enter);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(183, 31);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(265, 20);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "Visualisation des titres abonnés";
+            // 
             // dgvTitres
             // 
             this.dgvTitres.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -144,45 +188,6 @@ namespace Mediatek86
             this.dgvTitres.Name = "dgvTitres";
             this.dgvTitres.Size = new System.Drawing.Size(623, 111);
             this.dgvTitres.TabIndex = 2;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(69, 85);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(122, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Choisir un domaine :";
-            // 
-            // cbxDomaines
-            // 
-            this.cbxDomaines.FormattingEnabled = true;
-            this.cbxDomaines.Location = new System.Drawing.Point(208, 77);
-            this.cbxDomaines.Name = "cbxDomaines";
-            this.cbxDomaines.Size = new System.Drawing.Size(226, 21);
-            this.cbxDomaines.TabIndex = 0;
-            this.cbxDomaines.SelectedIndexChanged += new System.EventHandler(this.cbxDomaines_SelectedIndexChanged);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(163, 24);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(336, 20);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Visualisation des numéros reçus par titre";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(183, 31);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(265, 20);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Visualisation des titres abonnés";
             // 
             // idTitre
             // 
@@ -213,32 +218,39 @@ namespace Mediatek86
             this.periodicite.Name = "periodicite";
             this.periodicite.Width = 80;
             // 
-            // numero
+            // label2
             // 
-            this.numero.HeaderText = "NUMERO";
-            this.numero.Name = "numero";
-            this.numero.Width = 60;
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(69, 85);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(122, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Choisir un domaine :";
             // 
-            // dateParution
+            // cbxDomaines
             // 
-            this.dateParution.HeaderText = "DATE DE PARUTION";
-            this.dateParution.Name = "dateParution";
-            this.dateParution.Width = 140;
-            // 
-            // photo
-            // 
-            this.photo.HeaderText = "EMPLACEMENT PHOTO";
-            this.photo.Name = "photo";
-            this.photo.Width = 300;
+            this.cbxDomaines.FormattingEnabled = true;
+            this.cbxDomaines.Location = new System.Drawing.Point(208, 77);
+            this.cbxDomaines.Name = "cbxDomaines";
+            this.cbxDomaines.Size = new System.Drawing.Size(226, 21);
+            this.cbxDomaines.TabIndex = 0;
+            this.cbxDomaines.SelectedIndexChanged += new System.EventHandler(this.cbxDomaines_SelectedIndexChanged);
             // 
             // tabLivres
             // 
+            this.tabLivres.Controls.Add(this.btnRechercher);
+            this.tabLivres.Controls.Add(this.txbTitre);
+            this.tabLivres.Controls.Add(this.label6);
+            this.tabLivres.Controls.Add(this.label5);
+            this.tabLivres.Controls.Add(this.txbNumDoc);
             this.tabLivres.Location = new System.Drawing.Point(4, 22);
             this.tabLivres.Name = "tabLivres";
             this.tabLivres.Size = new System.Drawing.Size(792, 523);
             this.tabLivres.TabIndex = 2;
             this.tabLivres.Text = "Livres";
             this.tabLivres.UseVisualStyleBackColor = true;
+            this.tabLivres.Enter += new System.EventHandler(this.tabLivres_Enter);
             // 
             // tabDVD
             // 
@@ -248,6 +260,52 @@ namespace Mediatek86
             this.tabDVD.TabIndex = 3;
             this.tabDVD.Text = "DVD";
             this.tabDVD.UseVisualStyleBackColor = true;
+            // 
+            // txbNumDoc
+            // 
+            this.txbNumDoc.Location = new System.Drawing.Point(261, 89);
+            this.txbNumDoc.Name = "txbNumDoc";
+            this.txbNumDoc.Size = new System.Drawing.Size(90, 20);
+            this.txbNumDoc.TabIndex = 0;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(69, 96);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(186, 13);
+            this.label5.TabIndex = 1;
+            this.label5.Text = "Saisir un numéro de document :";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(69, 143);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(138, 13);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "ou recherche par titre :";
+            // 
+            // txbTitre
+            // 
+            this.txbTitre.Location = new System.Drawing.Point(213, 140);
+            this.txbTitre.Name = "txbTitre";
+            this.txbTitre.Size = new System.Drawing.Size(174, 20);
+            this.txbTitre.TabIndex = 3;
+            this.txbTitre.TextChanged += new System.EventHandler(this.txbTitre_TextChanged);
+            // 
+            // btnRechercher
+            // 
+            this.btnRechercher.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRechercher.Location = new System.Drawing.Point(385, 88);
+            this.btnRechercher.Name = "btnRechercher";
+            this.btnRechercher.Size = new System.Drawing.Size(96, 20);
+            this.btnRechercher.TabIndex = 4;
+            this.btnRechercher.Text = "Rechercher";
+            this.btnRechercher.UseVisualStyleBackColor = true;
+            this.btnRechercher.Click += new System.EventHandler(this.btnRechercher_Click);
             // 
             // frmMediatek
             // 
@@ -265,6 +323,8 @@ namespace Mediatek86
             this.tabTitres.ResumeLayout(false);
             this.tabTitres.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTitres)).EndInit();
+            this.tabLivres.ResumeLayout(false);
+            this.tabLivres.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -292,6 +352,11 @@ namespace Mediatek86
         private System.Windows.Forms.DataGridViewTextBoxColumn periodicite;
         private System.Windows.Forms.TabPage tabLivres;
         private System.Windows.Forms.TabPage tabDVD;
+        private System.Windows.Forms.Button btnRechercher;
+        private System.Windows.Forms.TextBox txbTitre;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txbNumDoc;
     }
 }
 

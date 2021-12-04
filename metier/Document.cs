@@ -10,18 +10,21 @@ namespace Mediatek86.metier
     {
         private string idDoc;
         private string titre;
+        private string image;
         private Genre leGenre;
         private Categorie laCategorie;
 
-        public Document(string unId,string unTitre)
+        public Document(string unId, string unTitre, string image)
         {
             idDoc = unId;
             titre = unTitre;
+            this.Image = image;
         }
 
 
         public string IdDoc { get => idDoc; set => idDoc = value; }
         public string Titre { get => titre; set => titre = value; }
+        public string Image { get => image; set => image = value; }
         internal Genre LeGenre { get => leGenre; set => leGenre = value; }
         internal Categorie LaCategorie { get => laCategorie; set => laCategorie = value; }
     }
