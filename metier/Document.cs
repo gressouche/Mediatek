@@ -14,11 +14,11 @@ namespace Mediatek86.metier
         private Genre leGenre;
         private Categorie laCategorie;
 
-        public Document(string unId, string unTitre, string image)
+        public Document(string unId, string unTitre, string uneImage)
         {
             idDoc = unId;
             titre = unTitre;
-            this.Image = image;
+            image = uneImage;
         }
 
 

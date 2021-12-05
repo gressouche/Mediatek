@@ -29,11 +29,28 @@ namespace Mediatek86.bdd
             return lesCategories;
         }
 
+        public static List<Genre> getAllGenres()
+        {
+            List<Genre> lesGenres = new List<Genre>();
+            string req = "Select * from genre";
 
+            DAOFactory.connecter();
+
+            MySqlDataReader reader = DAOFactory.execSQLRead(req);
+
+            while (reader.Read())
+            {
+                Genre genre = new Genre(reader[0].ToString(), reader[1].ToString());
+                lesGenres.Add(genre);
+            }
+            DAOFactory.deconnecter();
+            return lesGenres;
+        }
+        
         public static List<Livre> getAllLivres()
         {
             List<Livre> lesLivres = new List<Livre>();
-            string req = "Select * from livre l join document d on l.idDoc=d.idDoc";
+            string req = "Select l.idDoc, l.ISBN, l.auteur, d.titre, d.image, l.collection from livre l join document d on l.idDoc=d.idDoc";
 
             DAOFactory.connecter();
 
@@ -42,8 +59,8 @@ namespace Mediatek86.bdd
             while (reader.Read())
             {
                 // On ne renseigne pas le genre et la catégorie car on ne peut pas ouvrir 2 dataReader dans la même connexion
-                Livre livre = new Livre(reader[0].ToString(), reader[1].ToString(), reader[2].ToString(),
-                    reader[3].ToString(), reader[4].ToString(), reader[5].ToString());
+                Livre livre = new Livre(reader[0].ToString(), reader[3].ToString(), reader[1].ToString(),
+                    reader[2].ToString(), reader[5].ToString(), reader[4].ToString());
                 lesLivres.Add(livre);
             }
             DAOFactory.deconnecter();
@@ -54,7 +71,7 @@ namespace Mediatek86.bdd
         public static Categorie getCategorieByLivre(Livre pLivre)
         {
             Categorie categorie;
-            string req = "Select c.idPublic,c.libelle from categorie c,document d where c.idCategorie = d.idCategorie and d.idDoc='";
+            string req = "Select p.idP,p.libelle from public p,document d where p.idP = d.idP and d.idDoc='";
             req += pLivre.IdDoc + "'";
 
             DAOFactory.connecter();
@@ -71,6 +88,28 @@ namespace Mediatek86.bdd
             }
             DAOFactory.deconnecter();
             return categorie;
+        }
+
+        public static Genre getGenreByLivre(Livre pLivre)
+        {
+            Genre genre;
+            string req = "Select g.idG,g.libelle from genre g,document d where g.idG = d.idG and d.idDoc='";
+            req += pLivre.IdDoc + "'";
+
+            DAOFactory.connecter();
+
+            MySqlDataReader reader = DAOFactory.execSQLRead(req);
+
+            if (reader.Read())
+            {
+                genre = new Genre(reader[0].ToString(), reader[1].ToString());
+            }
+            else
+            {
+               genre = null;
+            }
+            DAOFactory.deconnecter();
+            return genre;
         }
     }
 }
