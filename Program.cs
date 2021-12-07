@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Mediatek86.controleur;
+
 
 namespace Mediatek86
 {
@@ -16,7 +18,8 @@ namespace Mediatek86
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmMediatek());
+            //Application.Run(new FrmMediatek());
+            new Controle();
         }
     }
 }

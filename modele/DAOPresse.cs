@@ -10,21 +10,25 @@ namespace Mediatek86.bdd
 {
     class DAOPresse
     {
+        /// <summary>
+        /// Récupère tous les domaines depuis la BDD
+        /// </summary>
+        /// <returns></returns>
         public static List<Domaine> getAllDomaines()
         {
             List<Domaine> lesDomaines = new List<Domaine>();
             string req = "Select * from domaine";
 
-            DAOFactory.connecter();
+            DAOConnexion.connecter();
 
-            MySqlDataReader reader = DAOFactory.execSQLRead(req);
+            MySqlDataReader reader = DAOConnexion.execSQLRead(req);
 
             while (reader.Read())
             {
                 Domaine domaine = new Domaine(reader[0].ToString(), reader[1].ToString());
                 lesDomaines.Add(domaine);
             }
-            DAOFactory.deconnecter();
+            DAOConnexion.deconnecter();
             return lesDomaines;
         }
 
@@ -33,9 +37,9 @@ namespace Mediatek86.bdd
             Domaine domaine;
             string req = "Select * from domaine where idDomaine = " + pId;
 
-            DAOFactory.connecter();
+            DAOConnexion.connecter();
 
-            MySqlDataReader reader = DAOFactory.execSQLRead(req);
+            MySqlDataReader reader = DAOConnexion.execSQLRead(req);
 
             if (reader.Read())
             {
@@ -45,7 +49,7 @@ namespace Mediatek86.bdd
             {
                 domaine =null;
             }
-            DAOFactory.deconnecter();
+            DAOConnexion.deconnecter();
             return domaine;
         }
 
@@ -55,9 +59,9 @@ namespace Mediatek86.bdd
             string req = "Select d.idDomaine,d.libelle from domaine d,titre t where d.idDomaine = t.idDomaine and t.idTitre='" ;
             req += pTitre.IdTitre + "'";
 
-            DAOFactory.connecter();
+            DAOConnexion.connecter();
 
-            MySqlDataReader reader = DAOFactory.execSQLRead(req);
+            MySqlDataReader reader = DAOConnexion.execSQLRead(req);
 
             if (reader.Read())
             {
@@ -67,17 +71,18 @@ namespace Mediatek86.bdd
             {
                 domaine = null;
             }
-            DAOFactory.deconnecter();
+            DAOConnexion.deconnecter();
             return domaine;
         }
-        public static List<Titre> getAllTitre()
+        
+        public static List<Titre> getAllTitres()
         {
             List<Titre> lesTitres = new List<Titre>();
             string req = "Select * from titre";
 
-            DAOFactory.connecter();
+            DAOConnexion.connecter();
 
-            MySqlDataReader reader = DAOFactory.execSQLRead(req);
+            MySqlDataReader reader = DAOConnexion.execSQLRead(req);
 
             while (reader.Read())
             {
@@ -87,7 +92,7 @@ namespace Mediatek86.bdd
                 Titre titre = new Titre(reader[0].ToString(), reader[1].ToString(), char.Parse(reader[2].ToString()));
                 lesTitres.Add(titre);
             }
-            DAOFactory.deconnecter();
+            DAOConnexion.deconnecter();
 
             return lesTitres;
         }
@@ -97,16 +102,16 @@ namespace Mediatek86.bdd
             List<Parution> lesParutions = new List<Parution>();
             string req = "Select * from parution where idTitre = " + pTitre.IdTitre;
 
-            DAOFactory.connecter();
+            DAOConnexion.connecter();
 
-            MySqlDataReader reader = DAOFactory.execSQLRead(req);
+            MySqlDataReader reader = DAOConnexion.execSQLRead(req);
 
             while (reader.Read())
             {
                 Parution parution = new Parution(int.Parse(reader[1].ToString()), DateTime.Parse(reader[2].ToString()),pTitre,reader[3].ToString());
                 lesParutions.Add(parution);
             }
-            DAOFactory.deconnecter();
+            DAOConnexion.deconnecter();
             return lesParutions;
         }
 

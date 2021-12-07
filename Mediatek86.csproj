@@ -89,8 +89,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="controleur\Controle.cs" />
     <Compile Include="modele\DAODocuments.cs" />
-    <Compile Include="bdd\DAOFactory.cs" />
+    <Compile Include="bdd\DAOConnexion.cs" />
     <Compile Include="modele\DAOPresse.cs" />
     <Compile Include="metier\Categorie.cs" />
     <Compile Include="metier\Document.cs" />
@@ -98,11 +99,11 @@
     <Compile Include="metier\Livre.cs" />
     <Compile Include="metier\Parution.cs" />
     <Compile Include="metier\Titre.cs" />
-    <Compile Include="vue\frmMediatek.cs">
+    <Compile Include="vue\FrmMediatek.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="vue\frmMediatek.Designer.cs">
-      <DependentUpon>frmMediatek.cs</DependentUpon>
+    <Compile Include="vue\FrmMediatek.Designer.cs">
+      <DependentUpon>FrmMediatek.cs</DependentUpon>
     </Compile>
     <Compile Include="metier\Genre.cs" />
     <Compile Include="Program.cs" />
@@ -116,8 +117,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="vue\frmMediatek.resx">
-      <DependentUpon>frmMediatek.cs</DependentUpon>
+    <EmbeddedResource Include="vue\FrmMediatek.resx">
+      <DependentUpon>FrmMediatek.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
