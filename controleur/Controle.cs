@@ -38,22 +38,12 @@ namespace Mediatek86.controleur
 
 
         /// <summary>
-        /// Récupère et retourne les infos des domaines provenant de la BDD
-        /// </summary>
-        /// <returns>liste des domaines</returns>
-        public List<Domaine> GetLesDomaines()
-        {
-            return DAOPresse.getAllDomaines();
-        }
-
-
-        /// <summary>
         /// Récupère tous les titres de presse
         /// </summary>
         /// <returns>liste des titres</returns>
-        public List<Titre> GetLesTitres()
+        public List<Revue> GetLesRevues()
         {
-            return DAOPresse.getAllTitres();
+            return DAOPresse.getAllRevues();
         }
 
 
@@ -62,20 +52,9 @@ namespace Mediatek86.controleur
         /// </summary>
         /// <param name="unTitre">Objet Titre dont on veut obtenir l'objet Domaine associé</param>
         /// <returns>le Domaine associé au Titre</returns>
-        public Domaine GetDomaineByTitre(Titre unTitre)
+        public Genre GetGenreByRevue(Revue uneRevue)
         {
-            return DAOPresse.getDomainesByTitre(unTitre);
-        }
-
-
-        /// <summary>
-        /// Récupère toutes les parutions d'un titre de presse
-        /// </summary>
-        /// <param name="unTitre">Objet Titre dont on veut obtenir les parutions</param>
-        /// <returns>Liste de Parutions</returns>
-        public List<Parution> getParutionByTitre(Titre unTitre)
-        {
-            return DAOPresse.getParutionByTitre(unTitre);
+            return DAOPresse.getGenreByRevue(uneRevue);
         }
 
 

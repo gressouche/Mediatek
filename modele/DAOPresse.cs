@@ -10,32 +10,11 @@ namespace Mediatek86.bdd
 {
     class DAOPresse
     {
-        /// <summary>
-        /// Récupère tous les domaines depuis la BDD
-        /// </summary>
-        /// <returns></returns>
-        public static List<Domaine> getAllDomaines()
+
+        public static Genre getGenreById(string pId)
         {
-            List<Domaine> lesDomaines = new List<Domaine>();
-            string req = "Select * from domaine";
-
-            DAOConnexion.connecter();
-
-            MySqlDataReader reader = DAOConnexion.execSQLRead(req);
-
-            while (reader.Read())
-            {
-                Domaine domaine = new Domaine(reader[0].ToString(), reader[1].ToString());
-                lesDomaines.Add(domaine);
-            }
-            DAOConnexion.deconnecter();
-            return lesDomaines;
-        }
-
-        public static Domaine getDomainesById(string pId)
-        {
-            Domaine domaine;
-            string req = "Select * from domaine where idDomaine = " + pId;
+            Genre genre;
+            string req = "Select * from genre where id = " + pId;
 
             DAOConnexion.connecter();
 
@@ -43,21 +22,22 @@ namespace Mediatek86.bdd
 
             if (reader.Read())
             {
-                domaine = new Domaine(reader[0].ToString(), reader[1].ToString());
+                genre = new Genre(reader[0].ToString(), reader[1].ToString());
             }
             else
             {
-                domaine =null;
+                genre =null;
             }
             DAOConnexion.deconnecter();
-            return domaine;
+            return genre;
         }
 
-        public static Domaine getDomainesByTitre(Titre pTitre)
+        public static Genre getGenreByRevue(Revue pRevue)
         {
-            Domaine domaine;
-            string req = "Select d.idDomaine,d.libelle from domaine d,titre t where d.idDomaine = t.idDomaine and t.idTitre='" ;
-            req += pTitre.IdTitre + "'";
+            Genre genre;
+            //string req = "Select d.idDomaine,d.libelle from domaine d,titre t where d.idDomaine = t.idDomaine and t.idTitre='" ;
+            string req = "Select g.id,g.libelle from genre g, document d where g.id = d.idgenre and d.id='";
+            req += pRevue.IdDoc + "'";
 
             DAOConnexion.connecter();
 
@@ -65,21 +45,20 @@ namespace Mediatek86.bdd
 
             if (reader.Read())
             {
-                domaine = new Domaine(reader[0].ToString(), reader[1].ToString());
+                genre = new Genre(reader[0].ToString(), reader[1].ToString());
             }
             else
             {
-                domaine = null;
+                genre = null;
             }
             DAOConnexion.deconnecter();
-            return domaine;
+            return genre;
         }
         
-        public static List<Titre> getAllTitres()
+        public static List<Revue> getAllRevues()
         {
-            List<Titre> lesTitres = new List<Titre>();
-            string req = "Select * from titre";
-
+            List<Revue> lesRevues = new List<Revue>();
+            string req = "select r.id, titre, image, empruntable, periodicite, delaimiseadispo from revue r join document d on r.id = d.id";
             DAOConnexion.connecter();
 
             MySqlDataReader reader = DAOConnexion.execSQLRead(req);
@@ -88,18 +67,17 @@ namespace Mediatek86.bdd
             {
                 // On ne renseigne pas le domaine car on ne put pas ouvrir 2 dataReader dans la même connexion
                 //Domaine domaine = getDomainesById(reader[3].ToString());
-                //Titre titre = new Titre(reader[0].ToString(), reader[1].ToString(),char.Parse(reader[2].ToString()),domaine);
-                Titre titre = new Titre(reader[0].ToString(), reader[1].ToString(), char.Parse(reader[2].ToString()));
-                lesTitres.Add(titre);
+                Revue revue = new Revue(reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), char.Parse(reader[3].ToString()), reader[4].ToString(), int.Parse(reader[5].ToString()));
+                lesRevues.Add(revue);
             }
             DAOConnexion.deconnecter();
 
-            return lesTitres;
+            return lesRevues;
         }
         
-        public static List<Parution> getParutionByTitre(Titre pTitre)
+        /*public static List<Exemplaire> getParutionByTitre(Revue pTitre)
         {
-            List<Parution> lesParutions = new List<Parution>();
+            List<Exemplaire> lesParutions = new List<Exemplaire>();
             string req = "Select * from parution where idTitre = " + pTitre.IdTitre;
 
             DAOConnexion.connecter();
@@ -108,12 +86,12 @@ namespace Mediatek86.bdd
 
             while (reader.Read())
             {
-                Parution parution = new Parution(int.Parse(reader[1].ToString()), DateTime.Parse(reader[2].ToString()),pTitre,reader[3].ToString());
+                Exemplaire parution = new Exemplaire(int.Parse(reader[1].ToString()), DateTime.Parse(reader[2].ToString()),pTitre,reader[3].ToString());
                 lesParutions.Add(parution);
             }
             DAOConnexion.deconnecter();
             return lesParutions;
-        }
+        }*/
 
 
         // Crée dans la BDD l'objet CompteBancaire passé en paramètre

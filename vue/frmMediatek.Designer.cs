@@ -30,14 +30,6 @@ namespace Mediatek86
         private void InitializeComponent()
         {
             this.tabOngletsApplication = new System.Windows.Forms.TabControl();
-            this.tabParutions = new System.Windows.Forms.TabPage();
-            this.label3 = new System.Windows.Forms.Label();
-            this.dgvParutions = new System.Windows.Forms.DataGridView();
-            this.numero = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dateParution = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.photo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label1 = new System.Windows.Forms.Label();
-            this.cbxTitres = new System.Windows.Forms.ComboBox();
             this.tabTitres = new System.Windows.Forms.TabPage();
             this.label4 = new System.Windows.Forms.Label();
             this.dgvTitres = new System.Windows.Forms.DataGridView();
@@ -76,8 +68,6 @@ namespace Mediatek86
             this.label9 = new System.Windows.Forms.Label();
             this.tabDVD = new System.Windows.Forms.TabPage();
             this.tabOngletsApplication.SuspendLayout();
-            this.tabParutions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvParutions)).BeginInit();
             this.tabTitres.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTitres)).BeginInit();
             this.tabLivres.SuspendLayout();
@@ -88,7 +78,6 @@ namespace Mediatek86
             // 
             // tabOngletsApplication
             // 
-            this.tabOngletsApplication.Controls.Add(this.tabParutions);
             this.tabOngletsApplication.Controls.Add(this.tabTitres);
             this.tabOngletsApplication.Controls.Add(this.tabLivres);
             this.tabOngletsApplication.Controls.Add(this.tabDVD);
@@ -98,80 +87,6 @@ namespace Mediatek86
             this.tabOngletsApplication.SelectedIndex = 0;
             this.tabOngletsApplication.Size = new System.Drawing.Size(800, 549);
             this.tabOngletsApplication.TabIndex = 0;
-            // 
-            // tabParutions
-            // 
-            this.tabParutions.Controls.Add(this.label3);
-            this.tabParutions.Controls.Add(this.dgvParutions);
-            this.tabParutions.Controls.Add(this.label1);
-            this.tabParutions.Controls.Add(this.cbxTitres);
-            this.tabParutions.Location = new System.Drawing.Point(4, 22);
-            this.tabParutions.Name = "tabParutions";
-            this.tabParutions.Padding = new System.Windows.Forms.Padding(3);
-            this.tabParutions.Size = new System.Drawing.Size(792, 523);
-            this.tabParutions.TabIndex = 0;
-            this.tabParutions.Text = "Parutions";
-            this.tabParutions.UseVisualStyleBackColor = true;
-            this.tabParutions.Enter += new System.EventHandler(this.tabParutions_Enter);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(163, 24);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(336, 20);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Visualisation des numéros reçus par titre";
-            // 
-            // dgvParutions
-            // 
-            this.dgvParutions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvParutions.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.numero,
-            this.dateParution,
-            this.photo});
-            this.dgvParutions.Location = new System.Drawing.Point(88, 135);
-            this.dgvParutions.Name = "dgvParutions";
-            this.dgvParutions.Size = new System.Drawing.Size(543, 235);
-            this.dgvParutions.TabIndex = 2;
-            // 
-            // numero
-            // 
-            this.numero.HeaderText = "NUMERO";
-            this.numero.Name = "numero";
-            this.numero.Width = 60;
-            // 
-            // dateParution
-            // 
-            this.dateParution.HeaderText = "DATE DE PARUTION";
-            this.dateParution.Name = "dateParution";
-            this.dateParution.Width = 140;
-            // 
-            // photo
-            // 
-            this.photo.HeaderText = "EMPLACEMENT PHOTO";
-            this.photo.Name = "photo";
-            this.photo.Width = 300;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(85, 82);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(97, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Choisir un titre :";
-            // 
-            // cbxTitres
-            // 
-            this.cbxTitres.FormattingEnabled = true;
-            this.cbxTitres.Location = new System.Drawing.Point(188, 74);
-            this.cbxTitres.Name = "cbxTitres";
-            this.cbxTitres.Size = new System.Drawing.Size(146, 21);
-            this.cbxTitres.TabIndex = 0;
-            this.cbxTitres.SelectedIndexChanged += new System.EventHandler(this.cbxTitres_SelectedIndexChanged);
             // 
             // tabTitres
             // 
@@ -184,7 +99,7 @@ namespace Mediatek86
             this.tabTitres.Padding = new System.Windows.Forms.Padding(3);
             this.tabTitres.Size = new System.Drawing.Size(792, 523);
             this.tabTitres.TabIndex = 1;
-            this.tabTitres.Text = "Titres";
+            this.tabTitres.Text = "Revues";
             this.tabTitres.UseVisualStyleBackColor = true;
             this.tabTitres.Enter += new System.EventHandler(this.tabTitres_Enter);
             // 
@@ -194,9 +109,9 @@ namespace Mediatek86
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(183, 31);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(265, 20);
+            this.label4.Size = new System.Drawing.Size(275, 20);
             this.label4.TabIndex = 4;
-            this.label4.Text = "Visualisation des titres abonnés";
+            this.label4.Text = "Visualisation des titres de presse";
             // 
             // dgvTitres
             // 
@@ -526,13 +441,10 @@ namespace Mediatek86
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 549);
             this.Controls.Add(this.tabOngletsApplication);
-            this.Name = "frmMediatek";
-            this.Text = "Gestion Médiathèque Version 2 MVC";
+            this.Name = "FrmMediatek";
+            this.Text = "Gestion Médiathèque Version 4";
             this.Load += new System.EventHandler(this.FrmMediatek_Load);
             this.tabOngletsApplication.ResumeLayout(false);
-            this.tabParutions.ResumeLayout(false);
-            this.tabParutions.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvParutions)).EndInit();
             this.tabTitres.ResumeLayout(false);
             this.tabTitres.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTitres)).EndInit();
@@ -549,18 +461,10 @@ namespace Mediatek86
         #endregion
 
         private System.Windows.Forms.TabControl tabOngletsApplication;
-        private System.Windows.Forms.TabPage tabParutions;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox cbxTitres;
         private System.Windows.Forms.TabPage tabTitres;
         private System.Windows.Forms.ComboBox cbxDomaines;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dgvTitres;
-        private System.Windows.Forms.DataGridView dgvParutions;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn numero;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dateParution;
-        private System.Windows.Forms.DataGridViewTextBoxColumn photo;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridViewTextBoxColumn idTitre;
         private System.Windows.Forms.DataGridViewTextBoxColumn nom;

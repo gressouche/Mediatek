@@ -27,8 +27,7 @@ namespace Mediatek86
         /// </summary>
         static List<Categorie> lesCategories;
         static List<Genre> lesGenres;
-        static List<Domaine> lesDomaines;
-        static List<Titre> lesTitres;
+        static List<Revue> lesRevues;
         static List<Livre> lesLivres;
 
         #endregion
@@ -54,68 +53,28 @@ namespace Mediatek86
             controle.creerConnectionBDD();
 
             // Chargement des objets en mémoire
-            //lesDomaines = DAOPresse.getAllDomaines();
-            // je passe par le contrôleur
-            lesDomaines = controle.GetLesDomaines();
-            lesTitres = controle.GetLesTitres();
+            lesGenres = controle.getAllGenres();
+            lesRevues = controle.GetLesRevues();
 
             // Affectation du Domaine à chaque Titre
-            foreach (Titre titre in lesTitres)
+            foreach (Revue revue in lesRevues)
             {
-                Domaine domaine = DAOPresse.getDomainesByTitre(titre);
-                titre.Domaine = domaine;
+                Genre genre = DAOPresse.getGenreByRevue(revue);
+                revue.LeGenre = genre;
             }
         }
 
         #endregion
 
 
-        #region Parutions
+        #region Revues
         //-----------------------------------------------------------
-        // ONGLET "PARUTIONS"
-        //------------------------------------------------------------
-        private void tabParutions_Enter(object sender, EventArgs e)
-        {
-            // Chargement de la liste déroulante depuis la collection des Titres
-            cbxTitres.DataSource = lesTitres;
-            cbxTitres.DisplayMember = "nom";
-        }
-
-
-        /// <summary>
-        /// Sélection d'un titre dans la liste déroulante : on recherche toutes les parutions
-        /// du titre sélectionné, et on les charge dans le datagridview.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void cbxTitres_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            List<Parution> lesParutions;
-
-            Titre titreSelectionne = (Titre)cbxTitres.SelectedItem;
-            lesParutions = controle.getParutionByTitre(titreSelectionne);
-
-            // ré-initialisation du dataGridView
-            dgvParutions.Rows.Clear();
-
-            // Parcours de la collection des titres et alimentation du datagridview
-            foreach (Parution parution in lesParutions)
-            {
-                dgvParutions.Rows.Add(parution.Numero, parution.DateParution, parution.Photo);
-            }
-
-        }
-        #endregion
-
-
-        #region Titres
-        //-----------------------------------------------------------
-        // ONGLET "TITRES"
+        // ONGLET "Revues"
         //------------------------------------------------------------
         private void tabTitres_Enter(object sender, EventArgs e)
         {
             // Chargement de la liste déroulante à partir de la collection des Domaines
-            cbxDomaines.DataSource = lesDomaines;
+            cbxDomaines.DataSource = lesGenres;
             cbxDomaines.DisplayMember = "libelle";
         }
 
@@ -128,18 +87,18 @@ namespace Mediatek86
         /// <param name="e"></param>
         private void cbxDomaines_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Objet Domaine sélectionné dans la comboBox
-            Domaine domaineSelectionne = (Domaine)cbxDomaines.SelectedItem;
+            // Objet Genre sélectionné dans la comboBox
+            Genre genreSelectionne = (Genre)cbxDomaines.SelectedItem;
 
             // ré-initialisation du dataGridView
             dgvTitres.Rows.Clear();
 
             // Parcours de la collection des titres et alimentation du datagridview
-            foreach (Titre titre in lesTitres)
+            foreach (Revue titre in lesRevues)
             {
-                if (titre.Domaine.IdDomaine == domaineSelectionne.IdDomaine)
+                    if (titre.LeGenre.IdGenre==genreSelectionne.IdGenre)
                 {
-                    dgvTitres.Rows.Add(titre.IdTitre, titre.Nom, titre.Empruntable);
+                    dgvTitres.Rows.Add(titre.IdDoc, titre.Titre, titre.Periodicite, titre.Empruntable);
                 }
             }
         }
@@ -199,7 +158,7 @@ namespace Mediatek86
                     lblTitre.Text = livre.Titre;
                     lblAuteur.Text = livre.Auteur;
                     lblCollection.Text = livre.LaCollection;
-                    lblISBN.Text = livre.ISBN1;
+                    lblISBN.Text = livre.ISBN;
                     lblImage.Text = livre.Image;
                     trouve = true;
                 }
@@ -225,7 +184,7 @@ namespace Mediatek86
                 //on teste si le titre du livre contient ce qui a été saisi
                 if (titreMinuscules.Contains(saisieMinuscules))
                 {
-                    dgvLivres.Rows.Add(livre.IdDoc, livre.Titre, livre.Auteur, livre.ISBN1, livre.LaCollection);
+                    dgvLivres.Rows.Add(livre.IdDoc, livre.Titre, livre.Auteur, livre.ISBN, livre.LaCollection);
                 }
             }
         }

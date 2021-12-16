@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace Mediatek86.metier
 {
-    class Domaine
+    class Rayon
     {
-        private string idDomaine;
+        private string id;
         private string libelle;
 
-        public Domaine(string pIdDomaine, string pLibelle)
+        public Rayon(string id, string libelle)
         {
-            this.idDomaine = pIdDomaine;
-            this.libelle = pLibelle;
+            this.Id = id;
+            this.Libelle = libelle;
         }
 
-        public string IdDomaine { get => idDomaine; set => idDomaine = value; }
+        public string Id { get => id; set => id = value; }
         public string Libelle { get => libelle; set => libelle = value; }
     }
 }

@@ -61,7 +61,7 @@ namespace Mediatek86.bdd
         public static List<Livre> getAllLivres()
         {
             List<Livre> lesLivres = new List<Livre>();
-            string req = "Select l.idDoc, l.ISBN, l.auteur, d.titre, d.image, l.collection from livre l join document d on l.idDoc=d.idDoc";
+            string req = "Select l.id, l.ISBN, l.auteur, d.titre, d.image, l.collection from livre l join document d on l.id=d.id";
 
             DAOConnexion.connecter();
 
@@ -87,7 +87,7 @@ namespace Mediatek86.bdd
         public static Categorie getCategorieByLivre(Livre pLivre)
         {
             Categorie categorie;
-            string req = "Select p.idP,p.libelle from public p,document d where p.idP = d.idP and d.idDoc='";
+            string req = "Select p.id,p.libelle from public p,document d where p.id = d.idPublic and d.id='";
             req += pLivre.IdDoc + "'";
 
             DAOConnexion.connecter();
@@ -114,7 +114,7 @@ namespace Mediatek86.bdd
         public static Genre getGenreByLivre(Livre pLivre)
         {
             Genre genre;
-            string req = "Select g.idG,g.libelle from genre g,document d where g.idG = d.idG and d.idDoc='";
+            string req = "Select g.id,g.libelle from genre g,document d where g.id = d.idGenre and d.id='";
             req += pLivre.IdDoc + "'";
 
             DAOConnexion.connecter();
