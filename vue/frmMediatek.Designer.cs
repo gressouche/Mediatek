@@ -33,11 +33,6 @@ namespace Mediatek86
             this.tabTitres = new System.Windows.Forms.TabPage();
             this.label4 = new System.Windows.Forms.Label();
             this.dgvTitres = new System.Windows.Forms.DataGridView();
-            this.idTitre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nom = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.empruntable = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dateFin = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.periodicite = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label2 = new System.Windows.Forms.Label();
             this.cbxDomaines = new System.Windows.Forms.ComboBox();
             this.tabLivres = new System.Windows.Forms.TabPage();
@@ -67,6 +62,11 @@ namespace Mediatek86
             this.label12 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.tabDVD = new System.Windows.Forms.TabPage();
+            this.idTitre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nom = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.empruntable = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.periodicite = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.delaimiseadispo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabOngletsApplication.SuspendLayout();
             this.tabTitres.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTitres)).BeginInit();
@@ -120,41 +120,12 @@ namespace Mediatek86
             this.idTitre,
             this.nom,
             this.empruntable,
-            this.dateFin,
-            this.periodicite});
+            this.periodicite,
+            this.delaimiseadispo});
             this.dgvTitres.Location = new System.Drawing.Point(72, 139);
             this.dgvTitres.Name = "dgvTitres";
-            this.dgvTitres.Size = new System.Drawing.Size(623, 111);
+            this.dgvTitres.Size = new System.Drawing.Size(643, 227);
             this.dgvTitres.TabIndex = 2;
-            // 
-            // idTitre
-            // 
-            this.idTitre.HeaderText = "NUMERO";
-            this.idTitre.Name = "idTitre";
-            this.idTitre.Width = 60;
-            // 
-            // nom
-            // 
-            this.nom.HeaderText = "TITRE";
-            this.nom.Name = "nom";
-            this.nom.Width = 200;
-            // 
-            // empruntable
-            // 
-            this.empruntable.HeaderText = "EMPRUNTABLE";
-            this.empruntable.Name = "empruntable";
-            // 
-            // dateFin
-            // 
-            this.dateFin.HeaderText = "FIN D\'ABONNEMENT";
-            this.dateFin.Name = "dateFin";
-            this.dateFin.Width = 140;
-            // 
-            // periodicite
-            // 
-            this.periodicite.HeaderText = "PERIODICITE";
-            this.periodicite.Name = "periodicite";
-            this.periodicite.Width = 80;
             // 
             // label2
             // 
@@ -435,6 +406,34 @@ namespace Mediatek86
             this.tabDVD.Text = "DVD";
             this.tabDVD.UseVisualStyleBackColor = true;
             // 
+            // idTitre
+            // 
+            this.idTitre.HeaderText = "NUMERO";
+            this.idTitre.Name = "idTitre";
+            this.idTitre.Width = 60;
+            // 
+            // nom
+            // 
+            this.nom.HeaderText = "TITRE";
+            this.nom.Name = "nom";
+            this.nom.Width = 200;
+            // 
+            // empruntable
+            // 
+            this.empruntable.HeaderText = "EMPRUNTABLE";
+            this.empruntable.Name = "empruntable";
+            // 
+            // periodicite
+            // 
+            this.periodicite.HeaderText = "PERIODICITE";
+            this.periodicite.Name = "periodicite";
+            this.periodicite.Width = 140;
+            // 
+            // delaimiseadispo
+            // 
+            this.delaimiseadispo.HeaderText = "DISPONIBILITE (en semaines)";
+            this.delaimiseadispo.Name = "delaimiseadispo";
+            // 
             // FrmMediatek
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -466,11 +465,6 @@ namespace Mediatek86
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dgvTitres;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idTitre;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nom;
-        private System.Windows.Forms.DataGridViewTextBoxColumn empruntable;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dateFin;
-        private System.Windows.Forms.DataGridViewTextBoxColumn periodicite;
         private System.Windows.Forms.TabPage tabLivres;
         private System.Windows.Forms.TabPage tabDVD;
         private System.Windows.Forms.Button btnRechercher;
@@ -498,6 +492,11 @@ namespace Mediatek86
         private System.Windows.Forms.DataGridViewTextBoxColumn auteur;
         private System.Windows.Forms.DataGridViewTextBoxColumn isbn;
         private System.Windows.Forms.DataGridViewTextBoxColumn lacollection;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idTitre;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nom;
+        private System.Windows.Forms.DataGridViewTextBoxColumn empruntable;
+        private System.Windows.Forms.DataGridViewTextBoxColumn periodicite;
+        private System.Windows.Forms.DataGridViewTextBoxColumn delaimiseadispo;
     }
 }
 

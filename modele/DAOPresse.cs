@@ -10,42 +10,46 @@ namespace Mediatek86.bdd
 {
     class DAOPresse
     {
-
         public static Genre getGenreById(string pId)
         {
             Genre genre;
-            string req = "Select * from genre where id = " + pId;
+            string req = "Select * from genre where id = @id";          
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+            {
+                { "@id", pId }
+            };
 
             DAOConnexion.connecter();
-
-            MySqlDataReader reader = DAOConnexion.execSQLRead(req);
-
-            if (reader.Read())
+            DAOConnexion.ReqSelect(req, parameters);
+            if (DAOConnexion.Read())
             {
-                genre = new Genre(reader[0].ToString(), reader[1].ToString());
+                genre = new Genre((string)DAOConnexion.Field("id"), (string)DAOConnexion.Field("libelle"));
             }
             else
             {
-                genre =null;
+                genre = null;
             }
             DAOConnexion.deconnecter();
-            return genre;
+            return genre;       
         }
+
 
         public static Genre getGenreByRevue(Revue pRevue)
         {
             Genre genre;
-            //string req = "Select d.idDomaine,d.libelle from domaine d,titre t where d.idDomaine = t.idDomaine and t.idTitre='" ;
-            string req = "Select g.id,g.libelle from genre g, document d where g.id = d.idgenre and d.id='";
-            req += pRevue.IdDoc + "'";
 
-            DAOConnexion.connecter();
-
-            MySqlDataReader reader = DAOConnexion.execSQLRead(req);
-
-            if (reader.Read())
+            string req = "Select g.id,g.libelle from genre g, document d where g.id = d.idgenre and d.id=@id";
+            Dictionary<string, object> parameters = new Dictionary<string, object>
             {
-                genre = new Genre(reader[0].ToString(), reader[1].ToString());
+                { "@id", pRevue.IdDoc }
+            };
+            
+            DAOConnexion.connecter();
+            DAOConnexion.ReqSelect(req, parameters);
+
+            if (DAOConnexion.Read())
+            {
+                genre = new Genre((string)DAOConnexion.Field("id"), (string)DAOConnexion.Field("libelle"));
             }
             else
             {
@@ -55,26 +59,23 @@ namespace Mediatek86.bdd
             return genre;
         }
         
-        public static List<Revue> getAllRevues()
+        
+        public static List<Revue> getLesRevues()
         {
             List<Revue> lesRevues = new List<Revue>();
             string req = "select r.id, titre, image, empruntable, periodicite, delaimiseadispo from revue r join document d on r.id = d.id";
             DAOConnexion.connecter();
-
-            MySqlDataReader reader = DAOConnexion.execSQLRead(req);
-
-            while (reader.Read())
+            DAOConnexion.ReqSelect(req, null);
+            while (DAOConnexion.Read())
             {
-                // On ne renseigne pas le domaine car on ne put pas ouvrir 2 dataReader dans la même connexion
-                //Domaine domaine = getDomainesById(reader[3].ToString());
-                Revue revue = new Revue(reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), char.Parse(reader[3].ToString()), reader[4].ToString(), int.Parse(reader[5].ToString()));
+                Revue revue = new Revue((string)DAOConnexion.Field("id"), (string)DAOConnexion.Field("titre"), (string)DAOConnexion.Field("image"), char.Parse((string)DAOConnexion.Field("empruntable")), (string)DAOConnexion.Field("periodicite"), (int)DAOConnexion.Field("delaimiseadispo") );
                 lesRevues.Add(revue);
+
             }
             DAOConnexion.deconnecter();
-
             return lesRevues;
         }
-        
+
         /*public static List<Exemplaire> getParutionByTitre(Revue pTitre)
         {
             List<Exemplaire> lesParutions = new List<Exemplaire>();

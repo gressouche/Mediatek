@@ -98,7 +98,7 @@ namespace Mediatek86
             {
                     if (titre.LeGenre.IdGenre==genreSelectionne.IdGenre)
                 {
-                    dgvTitres.Rows.Add(titre.IdDoc, titre.Titre, titre.Periodicite, titre.Empruntable);
+                    dgvTitres.Rows.Add(titre.IdDoc, titre.Titre, titre.Empruntable,titre.Periodicite,titre.DelaiMiseADispo);
                 }
             }
         }

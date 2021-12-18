@@ -20,17 +20,17 @@ namespace Mediatek86.bdd
             string req = "Select * from public";
 
             DAOConnexion.connecter();
-
-            MySqlDataReader reader = DAOConnexion.execSQLRead(req);
-
-            while (reader.Read())
+            DAOConnexion.ReqSelect(req, null);
+ 
+            while (DAOConnexion.Read())
             {
-                Categorie categorie = new Categorie(reader[0].ToString(), reader[1].ToString());
+                Categorie categorie = new Categorie((string)DAOConnexion.Field("id"),(string)DAOConnexion.Field("libelle"));
                 lesCategories.Add(categorie);
             }
             DAOConnexion.deconnecter();
             return lesCategories;
         }
+
 
         /// <summary>
         /// Retourne tous les genres à partir de la BDD
@@ -42,18 +42,18 @@ namespace Mediatek86.bdd
             string req = "Select * from genre";
 
             DAOConnexion.connecter();
+            DAOConnexion.ReqSelect(req, null);
 
-            MySqlDataReader reader = DAOConnexion.execSQLRead(req);
-
-            while (reader.Read())
+            while (DAOConnexion.Read())
             {
-                Genre genre = new Genre(reader[0].ToString(), reader[1].ToString());
+                Genre genre = new Genre((string)DAOConnexion.Field("id"), (string)DAOConnexion.Field("libelle"));
                 lesGenres.Add(genre);
             }
             DAOConnexion.deconnecter();
             return lesGenres;
         }
 
+        
         /// <summary>
         /// Retourne toutes les livres à partir de la BDD
         /// </summary>
@@ -64,14 +64,12 @@ namespace Mediatek86.bdd
             string req = "Select l.id, l.ISBN, l.auteur, d.titre, d.image, l.collection from livre l join document d on l.id=d.id";
 
             DAOConnexion.connecter();
+            DAOConnexion.ReqSelect(req, null);
 
-            MySqlDataReader reader = DAOConnexion.execSQLRead(req);
-
-            while (reader.Read())
+            while (DAOConnexion.Read())
             {
                 // On ne renseigne pas le genre et la catégorie car on ne peut pas ouvrir 2 dataReader dans la même connexion
-                Livre livre = new Livre(reader[0].ToString(), reader[3].ToString(), reader[1].ToString(),
-                    reader[2].ToString(), reader[5].ToString(), reader[4].ToString());
+                Livre livre = new Livre((string)DAOConnexion.Field("id"), (string)DAOConnexion.Field("titre"), (string)DAOConnexion.Field("ISBN"), (string)DAOConnexion.Field("auteur"), (string)DAOConnexion.Field("collection"), (string)DAOConnexion.Field("image"));
                 lesLivres.Add(livre);
             }
             DAOConnexion.deconnecter();
@@ -87,16 +85,18 @@ namespace Mediatek86.bdd
         public static Categorie getCategorieByLivre(Livre pLivre)
         {
             Categorie categorie;
-            string req = "Select p.id,p.libelle from public p,document d where p.id = d.idPublic and d.id='";
-            req += pLivre.IdDoc + "'";
+            string req = "Select p.id,p.libelle from public p,document d where p.id = d.idPublic and d.id=@id";
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+            {
+                { "@id", pLivre.IdDoc }
+            };
 
             DAOConnexion.connecter();
+            DAOConnexion.ReqSelect(req, parameters);
 
-            MySqlDataReader reader = DAOConnexion.execSQLRead(req);
-
-            if (reader.Read())
+            if (DAOConnexion.Read())
             {
-                categorie = new Categorie(reader[0].ToString(), reader[1].ToString());
+                categorie = new Categorie((string)DAOConnexion.Field("id"), (string)DAOConnexion.Field("libelle"));
             }
             else
             {
@@ -106,6 +106,7 @@ namespace Mediatek86.bdd
             return categorie;
         }
 
+
         /// <summary>
         /// Retourne le genre associée à un livre
         /// </summary>
@@ -114,16 +115,18 @@ namespace Mediatek86.bdd
         public static Genre getGenreByLivre(Livre pLivre)
         {
             Genre genre;
-            string req = "Select g.id,g.libelle from genre g,document d where g.id = d.idGenre and d.id='";
-            req += pLivre.IdDoc + "'";
+            string req = "Select g.id,g.libelle from genre g,document d where g.id = d.idGenre and d.id=@id";
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+            {
+                { "@id", pLivre.IdDoc }
+            };
 
             DAOConnexion.connecter();
+            DAOConnexion.ReqSelect(req, parameters);
 
-            MySqlDataReader reader = DAOConnexion.execSQLRead(req);
-
-            if (reader.Read())
+            if (DAOConnexion.Read())
             {
-                genre = new Genre(reader[0].ToString(), reader[1].ToString());
+                genre = new Genre((string)DAOConnexion.Field("id"), (string)DAOConnexion.Field("libelle"));
             }
             else
             {

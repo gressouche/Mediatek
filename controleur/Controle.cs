@@ -43,7 +43,8 @@ namespace Mediatek86.controleur
         /// <returns>liste des titres</returns>
         public List<Revue> GetLesRevues()
         {
-            return DAOPresse.getAllRevues();
+            //return DAOPresse.getAllRevues();
+            return DAOPresse.getLesRevues();
         }
 
 

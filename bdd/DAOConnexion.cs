@@ -11,6 +11,7 @@ namespace Mediatek86.bdd
     class DAOConnexion
     {
         private static MySqlConnection connexion;
+        private static MySqlDataReader reader;
 
         /// <summary>
         /// Crée l'objet Connection pour lier le programme à la base de données
@@ -108,5 +109,76 @@ namespace Mediatek86.bdd
                 Console.WriteLine("Erreur exécution SQL écriture -" + e.Message);
             }
         }
+
+
+
+        /// <summary>
+        /// Exécute une requête type "select" et valorise le curseur
+        /// </summary>
+        /// <param name="stringQuery">requête select</param>
+        public static void ReqSelect(string stringQuery, Dictionary<string, object> parameters)
+        {
+            MySqlCommand command;
+            
+            try
+            {
+                command = new MySqlCommand(stringQuery, connexion);
+                if (!(parameters is null))
+                {
+                    foreach (KeyValuePair<string, object> parameter in parameters)
+                    {
+                        command.Parameters.Add(new MySqlParameter(parameter.Key, parameter.Value));
+                    }
+                }
+                command.Prepare();
+                reader = command.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Tente de lire la ligne suivante du curseur
+        /// </summary>
+        /// <returns>false si fin de curseur atteinte</returns>
+        public static bool Read()
+        {
+            if (reader is null)
+            {
+                return false;
+            }
+            try
+            {
+                return reader.Read();
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Retourne le contenu d'un champ dont le nom est passé en paramètre
+        /// </summary>
+        /// <param name="nameField">nom du champ</param>
+        /// <returns>valeur du champ</returns>
+        public static object Field(string nameField)
+        {
+            if (reader is null)
+            {
+                return null;
+            }
+            try
+            {
+                return reader[nameField];
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
     }
 }
