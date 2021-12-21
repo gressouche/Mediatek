@@ -8,7 +8,7 @@ using MySql.Data.MySqlClient;
 
 namespace Mediatek86.bdd
 {
-    class DAOConnexion
+    static class DAOConnexion
     {
         private static MySqlConnection connexion;
         private static MySqlDataReader reader;
@@ -19,8 +19,8 @@ namespace Mediatek86.bdd
         public static void creerConnection()
         {
             string serverIp = "127.0.0.1";
-            string username = "root";
-            string password = "";
+            string username = "mediatek";
+            string password = "q5OJ7QUAKHeBN3xe";
             string databaseName = "mediatek86";
 
             string dbConnectionString = string.Format("server={0};uid={1};pwd={2};database={3};", serverIp, username, password, databaseName);
@@ -29,9 +29,9 @@ namespace Mediatek86.bdd
             {
                 connexion = new MySqlConnection(dbConnectionString);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine("Erreur connexion BDD", e.Message);
+                Console.WriteLine("Erreur connexion BDD" + ex.Message);
                 Application.Exit();
             }
 
@@ -58,56 +58,6 @@ namespace Mediatek86.bdd
         public static void deconnecter()
         {
             connexion.Close();
-        }
-
-        /// <summary>
-        /// Exécute une requête d'interrogation de la base de données
-        /// </summary>
-        /// <param name="requete">Requête SQL sous forme de chaîne de caractères</param>
-        /// <returns>Le résultat de la requête sous forme de dataReader</returns>
-        public static MySqlDataReader execSQLRead(string requete)
-        {
-            MySqlDataReader dataReader = null;
-            try
-            {
-                MySqlCommand command;
-                MySqlDataAdapter adapter;
-                command = new MySqlCommand();
-                command.CommandText = requete;
-                command.Connection = connexion;
-
-                adapter = new MySqlDataAdapter();
-                adapter.SelectCommand = command;
-
-                dataReader = command.ExecuteReader();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Erreur exécution SQL lecture -" + e.Message);
-            }
-
-            return dataReader;
-        }
-
-        /// <summary>
-        /// Exécute une requete d'écriture (Insert ou Update) ; ne retourne rien
-        /// </summary>
-        /// <param name="requete">Requête SQL sous forme de chaîne de caractères</param>
-        public static void execSQLWrite(string requete)
-        {
-            try
-            {
-                MySqlCommand command;
-                command = new MySqlCommand();
-                command.CommandText = requete;
-                command.Connection = connexion;
-
-                command.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Erreur exécution SQL écriture -" + e.Message);
-            }
         }
 
 
@@ -139,6 +89,7 @@ namespace Mediatek86.bdd
             }
         }
 
+
         /// <summary>
         /// Tente de lire la ligne suivante du curseur
         /// </summary>
@@ -158,6 +109,7 @@ namespace Mediatek86.bdd
                 return false;
             }
         }
+
 
         /// <summary>
         /// Retourne le contenu d'un champ dont le nom est passé en paramètre
@@ -180,5 +132,33 @@ namespace Mediatek86.bdd
             }
         }
 
+
+        /// <summary>
+        /// Exécution d'une requête autre que "select"
+        /// </summary>
+        /// <param name="stringQuery">requête autre que select</param>
+        /// <param name="parameters">dictionnire contenant les parametres</param>
+        public static void ReqUpdate(string stringQuery, Dictionary<string, object> parameters)
+        {
+            MySqlCommand command;
+            try
+            {
+                command = new MySqlCommand(stringQuery, connexion);
+                if (!(parameters is null))
+                {
+                    foreach (KeyValuePair<string, object> parameter in parameters)
+                    {
+                        command.Parameters.Add(new MySqlParameter(parameter.Key, parameter.Value));
+                    }
+                }
+                command.Prepare();
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

@@ -43,7 +43,6 @@ namespace Mediatek86.controleur
         /// <returns>liste des titres</returns>
         public List<Revue> GetLesRevues()
         {
-            //return DAOPresse.getAllRevues();
             return DAOPresse.getLesRevues();
         }
 
@@ -77,42 +76,6 @@ namespace Mediatek86.controleur
         }
         
 
-        /*      /// <summary>
-              /// Demande de suppression d'un développeur
-              /// </summary>
-              /// <param name="developpeur">objet developpeur à supprimer</param>
-              public void DelDeveloppeur(Developpeur developpeur)
-              {
-                  AccesDonnees.DelDepveloppeur(developpeur);
-              }
-
-              /// <summary>
-              /// Demande d'ajout d'un développeur
-              /// </summary>
-              /// <param name="developpeur"></param>
-              public void AddDeveloppeur(Developpeur developpeur)
-              {
-                  AccesDonnees.AddDeveloppeur(developpeur);
-              }
-
-              /// <summary>
-              /// Demande de modification d'un développeur
-              /// </summary>
-              /// <param name="developpeur"></param>
-              public void UpdateDeveloppeur(Developpeur developpeur)
-              {
-                  AccesDonnees.UpdateDeveloppeur(developpeur);
-              }
-
-              /// <summary>
-              /// Demande de changement de pwd
-              /// </summary>
-              /// <param name="developpeur"></param>
-              public void UpdatePwd(Developpeur developpeur)
-              {
-                  AccesDonnees.UpdatePwd(developpeur);
-              }
-        */
     }
 
 }

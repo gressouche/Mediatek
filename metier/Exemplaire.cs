@@ -12,19 +12,20 @@ namespace Mediatek86.metier
         private DateTime dateAchat;
         private string photo;
         private Document document;
-        private Etat etat;
+        private string etat;
 
-        public Exemplaire(int numero, DateTime dateAchat, string photo)
+        public Exemplaire(int numero, DateTime dateAchat, string photo,string etat)
         {
             this.numero = numero;
             this.dateAchat = dateAchat;
             this.photo = photo;
+            this.etat = etat;
         }
 
         public int Numero { get => numero; set => numero = value; }
         public string Photo { get => photo; set => photo = value; }
         public DateTime DateAchat { get => dateAchat; set => dateAchat = value; }
         internal Document Document { get => document; set => document = value; }
-        internal Etat Etat { get => etat; set => etat = value; }
+        public string Etat { get => etat; set => etat = value; }
     }
 }

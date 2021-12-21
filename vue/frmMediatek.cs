@@ -28,7 +28,10 @@ namespace Mediatek86
         static List<Categorie> lesCategories;
         static List<Genre> lesGenres;
         static List<Revue> lesRevues;
+        static List<Rayon> lesRayons;
         static List<Livre> lesLivres;
+        static List<Exemplaire> lesExemplairesParRevue;
+        static Revue laRevue;
 
         #endregion
 
@@ -96,9 +99,9 @@ namespace Mediatek86
             // Parcours de la collection des titres et alimentation du datagridview
             foreach (Revue titre in lesRevues)
             {
-                    if (titre.LeGenre.IdGenre==genreSelectionne.IdGenre)
+                if (titre.LeGenre.IdGenre == genreSelectionne.IdGenre)
                 {
-                    dgvTitres.Rows.Add(titre.IdDoc, titre.Titre, titre.Empruntable,titre.Periodicite,titre.DelaiMiseADispo);
+                    dgvTitres.Rows.Add(titre.IdDoc, titre.Titre, titre.Empruntable, titre.Periodicite, titre.DelaiMiseADispo);
                 }
             }
         }
@@ -121,20 +124,25 @@ namespace Mediatek86
             lesCategories = DAODocuments.getAllCategories();
             lesGenres = DAODocuments.getAllGenres();
             lesLivres = DAODocuments.getAllLivres();
+            lesRayons = DAODocuments.getAllRayons();
 
             // Affectation de la catégorie de public à chaque Livre
             foreach (Livre livre in lesLivres)
             {
                 Categorie categorie = DAODocuments.getCategorieByLivre(livre);
+                Genre genre = DAODocuments.getGenreByLivre(livre);
+                Rayon rayon = DAODocuments.getRayonByLivre(livre);
                 livre.LaCategorie = categorie;
+                livre.LeGenre = genre;
+                livre.LeRayon = rayon;
             }
 
             // Affectation du genre à chaque Livre
-            foreach (Livre livre in lesLivres)
+            /*foreach (Livre livre in lesLivres)
             {
                 Genre genre = DAODocuments.getGenreByLivre(livre);
                 livre.LeGenre = genre;
-            }
+            }*/
         }
 
         private void btnRechercher_Click(object sender, EventArgs e)
@@ -146,6 +154,7 @@ namespace Mediatek86
             lblCollection.Text = "";
             lblISBN.Text = "";
             lblImage.Text = "";
+            lblRayon.Text = "";
 
             // On recherche le livre correspondant au numéro de document saisi.
             // S'il n'existe pas: on affiche un popup message d'erreur
@@ -160,6 +169,7 @@ namespace Mediatek86
                     lblCollection.Text = livre.LaCollection;
                     lblISBN.Text = livre.ISBN;
                     lblImage.Text = livre.Image;
+                    lblRayon.Text = livre.LeRayon.Libelle;
                     trouve = true;
                 }
             }
@@ -190,5 +200,76 @@ namespace Mediatek86
         }
         #endregion
 
+
+        #region Réception Exemplaire de presse
+        private void tabReceptionRevue_Enter(object sender, EventArgs e)
+        {
+            txbNumero.Enabled = false;
+            txbImage.Enabled = false;
+            dtpParution.Enabled = false;
+            btnValider.Enabled = false;
+        }
+
+
+        private void btnRechercherRevue_Click(object sender, EventArgs e)
+        {
+            bool trouve = false;
+
+            foreach (Revue revue in lesRevues)
+            {
+                if (revue.IdDoc == txbIdRevue.Text)
+                {
+                    trouve = true;
+                    lblTitreRevue.Text = revue.Titre;
+                    lesExemplairesParRevue = DAOPresse.getLesExemplairesByRevue(revue);
+                    laRevue = revue;
+                }
+            }
+            if (!trouve)
+            {
+                lblTitreRevue.Text = "";
+                MessageBox.Show("Revue non trouvée");
+            }
+            else
+            {
+                txbNumero.Enabled = true;
+                txbImage.Enabled = true;
+                dtpParution.Enabled = true;
+                btnValider.Enabled = true;
+                txbNumero.Text = "";
+                txbImage.Text = "";
+                dtpParution.Text = "";
+            }
+        }
+
+        #endregion
+
+        private void btnValider_Click(object sender, EventArgs e)
+        {
+            int numParution;
+            try
+            {
+                numParution = int.Parse(txbNumero.Text);
+            }
+            catch (FormatException exception)
+            {
+                MessageBox.Show("Numéro saisi non numérique");
+                return;
+            }
+
+            Exemplaire exemplaireACreer = new Exemplaire(numParution, dtpParution.Value, txbImage.Text, "neuf");
+            exemplaireACreer.Document = laRevue.getInstanceDocument();
+
+            try
+            {
+                DAOPresse.creerExemplaire(exemplaireACreer);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erreur lors de l'ajout en bdd - " + ex.Message);
+                return;
+            }
+            MessageBox.Show("Ajout en bdd ok");
+        }
     }
 }

@@ -20,6 +20,11 @@ namespace Mediatek86.metier
             DelaiMiseADispo = unDelai;
         }
 
+        public Document getInstanceDocument()
+        {
+            return base.getInstance();
+        }
+
         public string Periodicite { get => periodicite; set => periodicite = value; }
         public char Empruntable { get => empruntable; set => empruntable = value; }
         public int DelaiMiseADispo { get => delaiMiseADispo; set => delaiMiseADispo = value; }

@@ -8,7 +8,7 @@ using Mediatek86.metier;
 
 namespace Mediatek86.bdd
 {
-    class DAOPresse
+    static class DAOPresse
     {
         public static Genre getGenreById(string pId)
         {
@@ -76,44 +76,63 @@ namespace Mediatek86.bdd
             return lesRevues;
         }
 
-        /*public static List<Exemplaire> getParutionByTitre(Revue pTitre)
+
+        public static List<Exemplaire> getLesExemplairesByRevue(Revue pRevue)
         {
-            List<Exemplaire> lesParutions = new List<Exemplaire>();
-            string req = "Select * from parution where idTitre = " + pTitre.IdTitre;
+            List<Exemplaire> lesExemplaires = new List<Exemplaire>();
+
+            string req = "Select ex.numero,ex.dateAchat,ex.photo, et.libelle from exemplaire ex join etat et on et.id = ex.idEtat where ex.id=@id";
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+            {
+                { "@id", pRevue.IdDoc }
+            };
 
             DAOConnexion.connecter();
+            DAOConnexion.ReqSelect(req, parameters);
 
-            MySqlDataReader reader = DAOConnexion.execSQLRead(req);
-
-            while (reader.Read())
+            while (DAOConnexion.Read())
             {
-                Exemplaire parution = new Exemplaire(int.Parse(reader[1].ToString()), DateTime.Parse(reader[2].ToString()),pTitre,reader[3].ToString());
-                lesParutions.Add(parution);
+                Exemplaire exemplaire = new Exemplaire(int.Parse(DAOConnexion.Field("numero").ToString()), (DateTime)DAOConnexion.Field("dateAchat"), (string)DAOConnexion.Field("photo"), (string)DAOConnexion.Field("etat"));
+                exemplaire.Document = pRevue.getInstanceDocument(); ;
+                lesExemplaires.Add(exemplaire);
             }
+            
             DAOConnexion.deconnecter();
-            return lesParutions;
-        }*/
-
-
-        // Crée dans la BDD l'objet CompteBancaire passé en paramètre
-        /*public static void creerCompte(CompteBancaire unCompte)
+            return lesExemplaires;
+        }
+    
+    
+        public static void creerExemplaire(Exemplaire exemplaire)
         {
-            string requete = "insert into compte_GRE values('" + unCompte.NumCompte + "','" +
-                unCompte.NomTitulaire + "','" + unCompte.SoldeCompte.ToString() + "')";
-            DAOFactory db = new DAOFactory();
-            db.connecter();
-            db.execSQLWrite(requete);
-        }*/
-
-        // Modifie dans la BDD le solde de l'objet CompteBancaire passé en paramètre
-        /*public static void modifierCompte(CompteBancaire unCompte)
-        {
-            string requete = "update compte_GRE set solde=" + unCompte.SoldeCompte + " where numero='" + unCompte.NumCompte + "'";
-
-            DAOFactory db = new DAOFactory();
-            db.connecter();
-            db.execSQLWrite(requete);
-        }*/
+            string etat = null;
+            switch (exemplaire.Etat)
+            {
+                case "neuf": { etat = "00001"; break; }
+                case "usagé": { etat = "00002"; break; }
+                case "détérioré": { etat = "00003"; break; }
+                case "inutilisable": { etat = "00004"; break; }
+            }
+            string req = "insert into exemplaire values (@idDoc,@numero,@dateParution,@photo,@idEtat)";
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+            {
+                { "@idDoc", exemplaire.Document.IdDoc},
+                { "@numero", exemplaire.Numero},
+                { "@dateParution", exemplaire.DateAchat},
+                { "@photo", exemplaire.Photo},
+                { "@idEtat", etat}
+            };
+            DAOConnexion.connecter();
+            try
+            {
+DAOConnexion.ReqUpdate(req, parameters);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            
+            DAOConnexion.deconnecter();
+        }
     }
 }
 

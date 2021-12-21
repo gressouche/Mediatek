@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Mediatek86.bdd
 {
-    class DAODocuments
+    static class DAODocuments
     {
         /// <summary>
         /// Retourne toutes les catégories à partir de la BDD
@@ -53,7 +53,29 @@ namespace Mediatek86.bdd
             return lesGenres;
         }
 
-        
+
+        /// <summary>
+        /// Retourne tous les rayons à partir de la BDD
+        /// </summary>
+        /// <returns>Collection d'objets Rayon</returns>
+        public static List<Rayon> getAllRayons()
+        {
+            List<Rayon> lesRayons = new List<Rayon>();
+            string req = "Select * from rayon";
+
+            DAOConnexion.connecter();
+            DAOConnexion.ReqSelect(req, null);
+
+            while (DAOConnexion.Read())
+            {
+                Rayon rayon = new Rayon((string)DAOConnexion.Field("id"), (string)DAOConnexion.Field("libelle"));
+                lesRayons.Add(rayon);
+            }
+            DAOConnexion.deconnecter();
+            return lesRayons;
+        }
+
+
         /// <summary>
         /// Retourne toutes les livres à partir de la BDD
         /// </summary>
@@ -134,6 +156,36 @@ namespace Mediatek86.bdd
             }
             DAOConnexion.deconnecter();
             return genre;
+        }
+
+
+        /// <summary>
+        /// Recherche le rayon où est stocké le livre
+        /// </summary>
+        /// <param name="pLivre"></param>
+        /// <returns>Objet Rayon associé au Livre</returns>
+        public static Rayon getRayonByLivre(Livre pLivre)
+        {
+           Rayon rayon;
+            string req = "Select r.id,r.libelle from rayon r,document d where r.id = d.idRayon and d.id=@id";
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+            {
+                { "@id", pLivre.IdDoc }
+            };
+
+            DAOConnexion.connecter();
+            DAOConnexion.ReqSelect(req, parameters);
+
+            if (DAOConnexion.Read())
+            {
+                rayon = new Rayon((string)DAOConnexion.Field("id"), (string)DAOConnexion.Field("libelle"));
+            }
+            else
+            {
+                rayon = null;
+            }
+            DAOConnexion.deconnecter();
+            return rayon;
         }
     }
 }
