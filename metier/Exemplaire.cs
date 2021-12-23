@@ -8,24 +8,18 @@ namespace Mediatek86.metier
 {
     class Exemplaire
     {
-        private int numero;
-        private DateTime dateAchat;
-        private string photo;
-        private Document document;
-        private string etat;
-
         public Exemplaire(int numero, DateTime dateAchat, string photo,string etat)
         {
-            this.numero = numero;
-            this.dateAchat = dateAchat;
-            this.photo = photo;
-            this.etat = etat;
+            this.Numero = numero;
+            this.DateAchat = dateAchat;
+            this.Photo = photo;
+            this.Etat = etat;
         }
 
-        public int Numero { get => numero; set => numero = value; }
-        public string Photo { get => photo; set => photo = value; }
-        public DateTime DateAchat { get => dateAchat; set => dateAchat = value; }
-        internal Document Document { get => document; set => document = value; }
-        public string Etat { get => etat; set => etat = value; }
+        public int Numero { get; set; }
+        public string Photo { get; set; }
+        public DateTime DateAchat { get; set; }
+        internal Document Document { get; set; }
+        public string Etat { get; set; }
     }
 }

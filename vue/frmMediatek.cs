@@ -62,7 +62,7 @@ namespace Mediatek86
             // Affectation du Domaine à chaque Titre
             foreach (Revue revue in lesRevues)
             {
-                Genre genre = DAOPresse.getGenreByRevue(revue);
+                Genre genre = controle.getGenreByRevue(revue);
                 revue.LeGenre = genre;
             }
         }
@@ -79,6 +79,13 @@ namespace Mediatek86
             // Chargement de la liste déroulante à partir de la collection des Domaines
             cbxDomaines.DataSource = lesGenres;
             cbxDomaines.DisplayMember = "libelle";
+
+            // On affiche d'abord tous les titres auxquels est abonnée la médiathèque
+            dgvTitres.Rows.Clear();
+            foreach (Revue revue in lesRevues)
+            {
+                    dgvTitres.Rows.Add(revue.IdDoc, revue.Titre, revue.Empruntable, revue.Periodicite, revue.DelaiMiseADispo, revue.LeGenre.Libelle);
+            }
         }
 
 
@@ -97,11 +104,12 @@ namespace Mediatek86
             dgvTitres.Rows.Clear();
 
             // Parcours de la collection des titres et alimentation du datagridview
-            foreach (Revue titre in lesRevues)
+            // On n'affiche que les revues correspondant au domaine choisi
+            foreach (Revue revue in lesRevues)
             {
-                if (titre.LeGenre.IdGenre == genreSelectionne.IdGenre)
+                if (revue.LeGenre.IdGenre == genreSelectionne.IdGenre)
                 {
-                    dgvTitres.Rows.Add(titre.IdDoc, titre.Titre, titre.Empruntable, titre.Periodicite, titre.DelaiMiseADispo);
+                    dgvTitres.Rows.Add(revue.IdDoc, revue.Titre, revue.Empruntable, revue.Periodicite, revue.DelaiMiseADispo,revue.LeGenre.Libelle);
                 }
             }
         }
@@ -121,28 +129,36 @@ namespace Mediatek86
         private void tabLivres_Enter(object sender, EventArgs e)
         {
             // Chargement des objets en mémoire
-            lesCategories = DAODocuments.getAllCategories();
-            lesGenres = DAODocuments.getAllGenres();
-            lesLivres = DAODocuments.getAllLivres();
-            lesRayons = DAODocuments.getAllRayons();
+            lesCategories = controle.getAllCategories();
+            lesGenres = controle.getAllGenres();
+            lesLivres = controle.getAllLivres();
+            lesRayons = controle.getAllRayons();
 
-            // Affectation de la catégorie de public à chaque Livre
+            // Affectation de la catégorie de public, du genre et du rayon à chaque Livre
             foreach (Livre livre in lesLivres)
             {
-                Categorie categorie = DAODocuments.getCategorieByLivre(livre);
-                Genre genre = DAODocuments.getGenreByLivre(livre);
-                Rayon rayon = DAODocuments.getRayonByLivre(livre);
+                Categorie categorie = DaoDocuments.getCategorieByLivre(livre);
+                Genre genre = controle.getGenreByLivre(livre);
+                Rayon rayon = controle.getRayonByLivre(livre);
                 livre.LaCategorie = categorie;
                 livre.LeGenre = genre;
                 livre.LeRayon = rayon;
             }
 
-            // Affectation du genre à chaque Livre
-            /*foreach (Livre livre in lesLivres)
+ 
+            // On renseigne la liste déroulante des genres
+            cbxGenres.DataSource = lesGenres;
+            cbxGenres.DisplayMember = "libelle";
+            cbxGenres.Text = "choisir un genre";
+
+
+            // A l'ouverture de l'onglet, on renseigne le datagrid avec l'ensemble des livres
+            dgvLivres.Rows.Clear();
+            foreach (Livre livre in lesLivres)
             {
-                Genre genre = DAODocuments.getGenreByLivre(livre);
-                livre.LeGenre = genre;
-            }*/
+                dgvLivres.Rows.Add(livre.IdDoc, livre.Titre, livre.Auteur, livre.ISBN, livre.LaCollection, livre.LeGenre.Libelle);
+            }
+
         }
 
         private void btnRechercher_Click(object sender, EventArgs e)
@@ -155,6 +171,7 @@ namespace Mediatek86
             lblISBN.Text = "";
             lblImage.Text = "";
             lblRayon.Text = "";
+            lblPublic.Text = "";
 
             // On recherche le livre correspondant au numéro de document saisi.
             // S'il n'existe pas: on affiche un popup message d'erreur
@@ -170,6 +187,7 @@ namespace Mediatek86
                     lblISBN.Text = livre.ISBN;
                     lblImage.Text = livre.Image;
                     lblRayon.Text = livre.LeRayon.Libelle;
+                    lblPublic.Text = livre.LaCategorie.Libelle;
                     trouve = true;
                 }
             }
@@ -180,6 +198,7 @@ namespace Mediatek86
         private void txbTitre_TextChanged(object sender, EventArgs e)
         {
             dgvLivres.Rows.Clear();
+            cbxGenres.Text = "";
 
             // On parcourt tous les livres. Si le titre matche avec la saisie, on l'affiche dans le datagrid.
             foreach (Livre livre in lesLivres)
@@ -194,7 +213,21 @@ namespace Mediatek86
                 //on teste si le titre du livre contient ce qui a été saisi
                 if (titreMinuscules.Contains(saisieMinuscules))
                 {
-                    dgvLivres.Rows.Add(livre.IdDoc, livre.Titre, livre.Auteur, livre.ISBN, livre.LaCollection);
+                    dgvLivres.Rows.Add(livre.IdDoc, livre.Titre, livre.Auteur, livre.ISBN, livre.LaCollection,livre.LeGenre.Libelle);
+                }
+            }
+        }
+
+        private void cbxGenres_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            dgvLivres.Rows.Clear();
+
+            // On parcourt tous les livres. Si le livre correspond au genre sélectionné, on l'affiche dans le datagrid.
+            foreach (Livre livre in lesLivres)
+            {
+                if (livre.LeGenre.Libelle == ((Genre)cbxGenres.SelectedItem).Libelle)
+                {
+                    dgvLivres.Rows.Add(livre.IdDoc, livre.Titre, livre.Auteur, livre.ISBN, livre.LaCollection,livre.LeGenre.Libelle);
                 }
             }
         }
@@ -221,7 +254,7 @@ namespace Mediatek86
                 {
                     trouve = true;
                     lblTitreRevue.Text = revue.Titre;
-                    lesExemplairesParRevue = DAOPresse.getLesExemplairesByRevue(revue);
+                    lesExemplairesParRevue = controle.getLesExemplairesByRevue(revue);
                     laRevue = revue;
                 }
             }
@@ -242,8 +275,7 @@ namespace Mediatek86
             }
         }
 
-        #endregion
-
+       
         private void btnValider_Click(object sender, EventArgs e)
         {
             int numParution;
@@ -262,7 +294,7 @@ namespace Mediatek86
 
             try
             {
-                DAOPresse.creerExemplaire(exemplaireACreer);
+               controle.creerExemplaire(exemplaireACreer);
             }
             catch (Exception ex)
             {
@@ -271,5 +303,9 @@ namespace Mediatek86
             }
             MessageBox.Show("Ajout en bdd ok");
         }
+
+        #endregion
+
+        
     }
 }

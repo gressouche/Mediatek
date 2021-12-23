@@ -8,7 +8,7 @@ using MySql.Data.MySqlClient;
 
 namespace Mediatek86.bdd
 {
-    static class DAOConnexion
+    static class DaoConnexion
     {
         private static MySqlConnection connexion;
         private static MySqlDataReader reader;

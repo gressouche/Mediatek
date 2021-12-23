@@ -8,32 +8,41 @@ using Mediatek86.metier;
 
 namespace Mediatek86.bdd
 {
-    static class DAOPresse
+    static class DaoPresse
     {
+        /// <summary>
+        /// Recherche du Genre d'après son identifiant
+        /// </summary>
+        /// <param name="pId">identifiant du genre</param>
+        /// <returns>l'objet Genre trouvé</returns>
         public static Genre getGenreById(string pId)
         {
             Genre genre;
-            string req = "Select * from genre where id = @id";          
+            string req = "Select * from genre where id = @id";
             Dictionary<string, object> parameters = new Dictionary<string, object>
             {
                 { "@id", pId }
             };
 
-            DAOConnexion.connecter();
-            DAOConnexion.ReqSelect(req, parameters);
-            if (DAOConnexion.Read())
+            DaoConnexion.connecter();
+            DaoConnexion.ReqSelect(req, parameters);
+            if (DaoConnexion.Read())
             {
-                genre = new Genre((string)DAOConnexion.Field("id"), (string)DAOConnexion.Field("libelle"));
+                genre = new Genre((string)DaoConnexion.Field("id"), (string)DaoConnexion.Field("libelle"));
             }
             else
             {
                 genre = null;
             }
-            DAOConnexion.deconnecter();
-            return genre;       
+            DaoConnexion.deconnecter();
+            return genre;
         }
 
-
+        /// <summary>
+        /// Recherche le genre associé à une revue
+        /// </summary>
+        /// <param name="pRevue">la revue concernée</param>
+        /// <returns>l'objet Genre de la Revue</returns>
         public static Genre getGenreByRevue(Revue pRevue)
         {
             Genre genre;
@@ -43,40 +52,47 @@ namespace Mediatek86.bdd
             {
                 { "@id", pRevue.IdDoc }
             };
-            
-            DAOConnexion.connecter();
-            DAOConnexion.ReqSelect(req, parameters);
 
-            if (DAOConnexion.Read())
+            DaoConnexion.connecter();
+            DaoConnexion.ReqSelect(req, parameters);
+
+            if (DaoConnexion.Read())
             {
-                genre = new Genre((string)DAOConnexion.Field("id"), (string)DAOConnexion.Field("libelle"));
+                genre = new Genre((string)DaoConnexion.Field("id"), (string)DaoConnexion.Field("libelle"));
             }
             else
             {
                 genre = null;
             }
-            DAOConnexion.deconnecter();
+            DaoConnexion.deconnecter();
             return genre;
         }
-        
-        
+
+        /// <summary>
+        /// Recherche l'ensemble des revues
+        /// </summary>
+        /// <returns>une collection des objets Revue</returns>
         public static List<Revue> getLesRevues()
         {
             List<Revue> lesRevues = new List<Revue>();
             string req = "select r.id, titre, image, empruntable, periodicite, delaimiseadispo from revue r join document d on r.id = d.id";
-            DAOConnexion.connecter();
-            DAOConnexion.ReqSelect(req, null);
-            while (DAOConnexion.Read())
+            DaoConnexion.connecter();
+            DaoConnexion.ReqSelect(req, null);
+            while (DaoConnexion.Read())
             {
-                Revue revue = new Revue((string)DAOConnexion.Field("id"), (string)DAOConnexion.Field("titre"), (string)DAOConnexion.Field("image"), char.Parse((string)DAOConnexion.Field("empruntable")), (string)DAOConnexion.Field("periodicite"), (int)DAOConnexion.Field("delaimiseadispo") );
+                Revue revue = new Revue((string)DaoConnexion.Field("id"), (string)DaoConnexion.Field("titre"), (string)DaoConnexion.Field("image"), char.Parse((string)DaoConnexion.Field("empruntable")), (string)DaoConnexion.Field("periodicite"), (int)DaoConnexion.Field("delaimiseadispo"));
                 lesRevues.Add(revue);
 
             }
-            DAOConnexion.deconnecter();
+            DaoConnexion.deconnecter();
             return lesRevues;
         }
 
-
+        /// <summary>
+        /// Recherche les exemplaires d'une revue
+        /// </summary>
+        /// <param name="pRevue">la revue concernée</param>
+        /// <returns>une collection des objets Exemplaire de la Revue</returns>
         public static List<Exemplaire> getLesExemplairesByRevue(Revue pRevue)
         {
             List<Exemplaire> lesExemplaires = new List<Exemplaire>();
@@ -87,21 +103,24 @@ namespace Mediatek86.bdd
                 { "@id", pRevue.IdDoc }
             };
 
-            DAOConnexion.connecter();
-            DAOConnexion.ReqSelect(req, parameters);
+            DaoConnexion.connecter();
+            DaoConnexion.ReqSelect(req, parameters);
 
-            while (DAOConnexion.Read())
+            while (DaoConnexion.Read())
             {
-                Exemplaire exemplaire = new Exemplaire(int.Parse(DAOConnexion.Field("numero").ToString()), (DateTime)DAOConnexion.Field("dateAchat"), (string)DAOConnexion.Field("photo"), (string)DAOConnexion.Field("etat"));
-                exemplaire.Document = pRevue.getInstanceDocument(); ;
+                Exemplaire exemplaire = new Exemplaire(int.Parse(DaoConnexion.Field("numero").ToString()), (DateTime)DaoConnexion.Field("dateAchat"), (string)DaoConnexion.Field("photo"), (string)DaoConnexion.Field("etat"));
+                exemplaire.Document = pRevue.getInstanceDocument();
                 lesExemplaires.Add(exemplaire);
             }
-            
-            DAOConnexion.deconnecter();
+
+            DaoConnexion.deconnecter();
             return lesExemplaires;
         }
-    
-    
+
+        /// <summary>
+        /// ecriture d'un exemplaire en base de données
+        /// </summary>
+        /// <param name="exemplaire">L'objet Exemplaire</param>
         public static void creerExemplaire(Exemplaire exemplaire)
         {
             string etat = null;
@@ -121,17 +140,17 @@ namespace Mediatek86.bdd
                 { "@photo", exemplaire.Photo},
                 { "@idEtat", etat}
             };
-            DAOConnexion.connecter();
+            DaoConnexion.connecter();
             try
             {
-DAOConnexion.ReqUpdate(req, parameters);
+                DaoConnexion.ReqUpdate(req, parameters);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            
-            DAOConnexion.deconnecter();
+
+            DaoConnexion.deconnecter();
         }
     }
 }

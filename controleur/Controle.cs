@@ -33,7 +33,7 @@ namespace Mediatek86.controleur
         /// </summary>
         public void creerConnectionBDD()
         {
-            DAOConnexion.creerConnection();
+            DaoConnexion.creerConnection();
         }
 
 
@@ -43,7 +43,7 @@ namespace Mediatek86.controleur
         /// <returns>liste des titres</returns>
         public List<Revue> GetLesRevues()
         {
-            return DAOPresse.getLesRevues();
+            return DaoPresse.getLesRevues();
         }
 
 
@@ -52,29 +52,56 @@ namespace Mediatek86.controleur
         /// </summary>
         /// <param name="unTitre">Objet Titre dont on veut obtenir l'objet Domaine associé</param>
         /// <returns>le Domaine associé au Titre</returns>
-        public Genre GetGenreByRevue(Revue uneRevue)
+        public Genre getGenreByRevue(Revue uneRevue)
         {
-            return DAOPresse.getGenreByRevue(uneRevue);
+            return DaoPresse.getGenreByRevue(uneRevue);
         }
 
 
         public List<Categorie> getAllCategories()
         {
-            return DAODocuments.getAllCategories();
+            return DaoDocuments.getAllCategories();
         }
 
 
         public List<Genre> getAllGenres()
         {
-            return DAODocuments.getAllGenres();
+            return DaoDocuments.getAllGenres();
         }
 
 
-        public List<Livre> getAlllivres()
+        public List<Livre> getAllLivres()
         {
-            return DAODocuments.getAllLivres();
+            return DaoDocuments.getAllLivres();
         }
-        
+
+
+        public List<Rayon> getAllRayons()
+        {
+            return DaoDocuments.getAllRayons();
+        }
+
+        public List<Exemplaire> getLesExemplairesByRevue(Revue revue)
+        {
+            return DaoPresse.getLesExemplairesByRevue(revue);
+        }
+
+
+        public void creerExemplaire(Exemplaire exemplaire)
+        {
+            DaoPresse.creerExemplaire(exemplaire);
+        }
+
+        public Genre getGenreByLivre(Livre livre)
+        {
+            return DaoDocuments.getGenreByLivre(livre);
+
+        }
+
+        public Rayon getRayonByLivre(Livre livre)
+        {
+            return DaoDocuments.getRayonByLivre(livre);
+        }
 
     }
 

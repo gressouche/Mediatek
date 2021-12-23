@@ -92,9 +92,9 @@
     <Compile Include="controleur\Controle.cs" />
     <Compile Include="metier\Etat.cs" />
     <Compile Include="metier\Rayon.cs" />
-    <Compile Include="modele\DAODocuments.cs" />
-    <Compile Include="bdd\DAOConnexion.cs" />
-    <Compile Include="modele\DAOPresse.cs" />
+    <Compile Include="modele\DaoDocuments.cs" />
+    <Compile Include="bdd\DaoConnexion.cs" />
+    <Compile Include="modele\DaoPresse.cs" />
     <Compile Include="metier\Categorie.cs" />
     <Compile Include="metier\Document.cs" />
     <Compile Include="metier\Livre.cs" />

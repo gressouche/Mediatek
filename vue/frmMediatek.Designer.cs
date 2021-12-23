@@ -33,21 +33,11 @@ namespace Mediatek86
             this.tabTitres = new System.Windows.Forms.TabPage();
             this.label4 = new System.Windows.Forms.Label();
             this.dgvTitres = new System.Windows.Forms.DataGridView();
-            this.idTitre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nom = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.empruntable = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.periodicite = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.delaimiseadispo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label2 = new System.Windows.Forms.Label();
             this.cbxDomaines = new System.Windows.Forms.ComboBox();
             this.tabLivres = new System.Windows.Forms.TabPage();
             this.grpRechercheTitre = new System.Windows.Forms.GroupBox();
             this.dgvLivres = new System.Windows.Forms.DataGridView();
-            this.idDoc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.titre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.auteur = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.isbn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lacollection = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label6 = new System.Windows.Forms.Label();
             this.txbTitre = new System.Windows.Forms.TextBox();
             this.grpRechercheCode = new System.Windows.Forms.GroupBox();
@@ -85,6 +75,22 @@ namespace Mediatek86
             this.label15 = new System.Windows.Forms.Label();
             this.txbIdRevue = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.idTitre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nom = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.empruntable = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.periodicite = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.delaimiseadispo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.genre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label14 = new System.Windows.Forms.Label();
+            this.cbxGenres = new System.Windows.Forms.ComboBox();
+            this.idDoc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.titre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.auteur = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.isbn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lacollection = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.libellegenre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label19 = new System.Windows.Forms.Label();
+            this.lblPublic = new System.Windows.Forms.Label();
             this.tabOngletsApplication.SuspendLayout();
             this.tabTitres.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTitres)).BeginInit();
@@ -108,7 +114,7 @@ namespace Mediatek86
             this.tabOngletsApplication.Location = new System.Drawing.Point(0, 0);
             this.tabOngletsApplication.Name = "tabOngletsApplication";
             this.tabOngletsApplication.SelectedIndex = 0;
-            this.tabOngletsApplication.Size = new System.Drawing.Size(800, 549);
+            this.tabOngletsApplication.Size = new System.Drawing.Size(800, 614);
             this.tabOngletsApplication.TabIndex = 0;
             // 
             // tabTitres
@@ -144,39 +150,12 @@ namespace Mediatek86
             this.nom,
             this.empruntable,
             this.periodicite,
-            this.delaimiseadispo});
-            this.dgvTitres.Location = new System.Drawing.Point(72, 139);
+            this.delaimiseadispo,
+            this.genre});
+            this.dgvTitres.Location = new System.Drawing.Point(27, 136);
             this.dgvTitres.Name = "dgvTitres";
-            this.dgvTitres.Size = new System.Drawing.Size(643, 227);
+            this.dgvTitres.Size = new System.Drawing.Size(735, 227);
             this.dgvTitres.TabIndex = 2;
-            // 
-            // idTitre
-            // 
-            this.idTitre.HeaderText = "NUMERO";
-            this.idTitre.Name = "idTitre";
-            this.idTitre.Width = 60;
-            // 
-            // nom
-            // 
-            this.nom.HeaderText = "TITRE";
-            this.nom.Name = "nom";
-            this.nom.Width = 200;
-            // 
-            // empruntable
-            // 
-            this.empruntable.HeaderText = "EMPRUNTABLE";
-            this.empruntable.Name = "empruntable";
-            // 
-            // periodicite
-            // 
-            this.periodicite.HeaderText = "PERIODICITE";
-            this.periodicite.Name = "periodicite";
-            this.periodicite.Width = 140;
-            // 
-            // delaimiseadispo
-            // 
-            this.delaimiseadispo.HeaderText = "DISPONIBILITE (en semaines)";
-            this.delaimiseadispo.Name = "delaimiseadispo";
             // 
             // label2
             // 
@@ -203,7 +182,7 @@ namespace Mediatek86
             this.tabLivres.Controls.Add(this.grpRechercheCode);
             this.tabLivres.Location = new System.Drawing.Point(4, 22);
             this.tabLivres.Name = "tabLivres";
-            this.tabLivres.Size = new System.Drawing.Size(792, 523);
+            this.tabLivres.Size = new System.Drawing.Size(792, 588);
             this.tabLivres.TabIndex = 2;
             this.tabLivres.Text = "Livres";
             this.tabLivres.UseVisualStyleBackColor = true;
@@ -211,15 +190,17 @@ namespace Mediatek86
             // 
             // grpRechercheTitre
             // 
+            this.grpRechercheTitre.Controls.Add(this.cbxGenres);
+            this.grpRechercheTitre.Controls.Add(this.label14);
             this.grpRechercheTitre.Controls.Add(this.dgvLivres);
             this.grpRechercheTitre.Controls.Add(this.label6);
             this.grpRechercheTitre.Controls.Add(this.txbTitre);
-            this.grpRechercheTitre.Location = new System.Drawing.Point(30, 251);
+            this.grpRechercheTitre.Location = new System.Drawing.Point(8, 251);
             this.grpRechercheTitre.Name = "grpRechercheTitre";
-            this.grpRechercheTitre.Size = new System.Drawing.Size(723, 264);
+            this.grpRechercheTitre.Size = new System.Drawing.Size(776, 264);
             this.grpRechercheTitre.TabIndex = 18;
             this.grpRechercheTitre.TabStop = false;
-            this.grpRechercheTitre.Text = "RECHERCHE PAR TITRE";
+            this.grpRechercheTitre.Text = "RECHERCHE PAR TITRE OU PAR GENRE";
             // 
             // dgvLivres
             // 
@@ -229,40 +210,12 @@ namespace Mediatek86
             this.titre,
             this.auteur,
             this.isbn,
-            this.lacollection});
+            this.lacollection,
+            this.libellegenre});
             this.dgvLivres.Location = new System.Drawing.Point(18, 62);
             this.dgvLivres.Name = "dgvLivres";
-            this.dgvLivres.Size = new System.Drawing.Size(689, 180);
+            this.dgvLivres.Size = new System.Drawing.Size(742, 180);
             this.dgvLivres.TabIndex = 4;
-            // 
-            // idDoc
-            // 
-            this.idDoc.HeaderText = "NUMERO";
-            this.idDoc.Name = "idDoc";
-            this.idDoc.Width = 60;
-            // 
-            // titre
-            // 
-            this.titre.HeaderText = "TITRE DU LIVRE";
-            this.titre.Name = "titre";
-            this.titre.Width = 200;
-            // 
-            // auteur
-            // 
-            this.auteur.HeaderText = "AUTEUR(E)";
-            this.auteur.Name = "auteur";
-            // 
-            // isbn
-            // 
-            this.isbn.HeaderText = "Code ISBN";
-            this.isbn.Name = "isbn";
-            this.isbn.Width = 90;
-            // 
-            // lacollection
-            // 
-            this.lacollection.HeaderText = "COLLECTION";
-            this.lacollection.Name = "lacollection";
-            this.lacollection.Width = 200;
             // 
             // label6
             // 
@@ -284,6 +237,8 @@ namespace Mediatek86
             // 
             // grpRechercheCode
             // 
+            this.grpRechercheCode.Controls.Add(this.lblPublic);
+            this.grpRechercheCode.Controls.Add(this.label19);
             this.grpRechercheCode.Controls.Add(this.lblRayon);
             this.grpRechercheCode.Controls.Add(this.label1);
             this.grpRechercheCode.Controls.Add(this.btnRechercher);
@@ -301,9 +256,9 @@ namespace Mediatek86
             this.grpRechercheCode.Controls.Add(this.label8);
             this.grpRechercheCode.Controls.Add(this.label12);
             this.grpRechercheCode.Controls.Add(this.label9);
-            this.grpRechercheCode.Location = new System.Drawing.Point(30, 19);
+            this.grpRechercheCode.Location = new System.Drawing.Point(8, 19);
             this.grpRechercheCode.Name = "grpRechercheCode";
-            this.grpRechercheCode.Size = new System.Drawing.Size(723, 206);
+            this.grpRechercheCode.Size = new System.Drawing.Size(776, 206);
             this.grpRechercheCode.TabIndex = 17;
             this.grpRechercheCode.TabStop = false;
             this.grpRechercheCode.Text = "RECHERCHE PAR CODE DOCUMENT";
@@ -641,11 +596,118 @@ namespace Mediatek86
             this.label3.TabIndex = 5;
             this.label3.Text = "Réception d\'un numéro de presse";
             // 
+            // idTitre
+            // 
+            this.idTitre.HeaderText = "NUMERO";
+            this.idTitre.Name = "idTitre";
+            this.idTitre.Width = 60;
+            // 
+            // nom
+            // 
+            this.nom.HeaderText = "TITRE";
+            this.nom.Name = "nom";
+            this.nom.Width = 200;
+            // 
+            // empruntable
+            // 
+            this.empruntable.HeaderText = "EMPRUNTABLE";
+            this.empruntable.Name = "empruntable";
+            // 
+            // periodicite
+            // 
+            this.periodicite.HeaderText = "PERIODICITE";
+            this.periodicite.Name = "periodicite";
+            this.periodicite.Width = 80;
+            // 
+            // delaimiseadispo
+            // 
+            this.delaimiseadispo.HeaderText = "DISPONIBILITE (en semaines)";
+            this.delaimiseadispo.Name = "delaimiseadispo";
+            // 
+            // genre
+            // 
+            this.genre.HeaderText = "DOMAINE";
+            this.genre.Name = "genre";
+            this.genre.Width = 150;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(435, 21);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(154, 13);
+            this.label14.TabIndex = 5;
+            this.label14.Text = "Ou sélectionner le genre :";
+            // 
+            // cbxGenres
+            // 
+            this.cbxGenres.FormattingEnabled = true;
+            this.cbxGenres.Location = new System.Drawing.Point(595, 18);
+            this.cbxGenres.Name = "cbxGenres";
+            this.cbxGenres.Size = new System.Drawing.Size(165, 21);
+            this.cbxGenres.TabIndex = 6;
+            this.cbxGenres.SelectedIndexChanged += new System.EventHandler(this.cbxGenres_SelectedIndexChanged);
+            // 
+            // idDoc
+            // 
+            this.idDoc.HeaderText = "NUMERO";
+            this.idDoc.Name = "idDoc";
+            this.idDoc.Width = 60;
+            // 
+            // titre
+            // 
+            this.titre.HeaderText = "TITRE DU LIVRE";
+            this.titre.Name = "titre";
+            this.titre.Width = 150;
+            // 
+            // auteur
+            // 
+            this.auteur.HeaderText = "AUTEUR(E)";
+            this.auteur.Name = "auteur";
+            // 
+            // isbn
+            // 
+            this.isbn.HeaderText = "Code ISBN";
+            this.isbn.Name = "isbn";
+            this.isbn.Width = 90;
+            // 
+            // lacollection
+            // 
+            this.lacollection.HeaderText = "COLLECTION";
+            this.lacollection.Name = "lacollection";
+            this.lacollection.Width = 150;
+            // 
+            // libellegenre
+            // 
+            this.libellegenre.HeaderText = "GENRE";
+            this.libellegenre.Name = "libellegenre";
+            this.libellegenre.Width = 150;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.Location = new System.Drawing.Point(435, 179);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(50, 13);
+            this.label19.TabIndex = 19;
+            this.label19.Text = "Public :";
+            // 
+            // lblPublic
+            // 
+            this.lblPublic.AutoSize = true;
+            this.lblPublic.Location = new System.Drawing.Point(491, 179);
+            this.lblPublic.Name = "lblPublic";
+            this.lblPublic.Size = new System.Drawing.Size(41, 13);
+            this.lblPublic.TabIndex = 20;
+            this.lblPublic.Text = "(public)";
+            // 
             // FrmMediatek
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 549);
+            this.ClientSize = new System.Drawing.Size(800, 614);
             this.Controls.Add(this.tabOngletsApplication);
             this.Name = "FrmMediatek";
             this.Text = "Gestion Médiathèque Version 4";
@@ -700,16 +762,6 @@ namespace Mediatek86
         private System.Windows.Forms.GroupBox grpRechercheTitre;
         private System.Windows.Forms.GroupBox grpRechercheCode;
         private System.Windows.Forms.DataGridView dgvLivres;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idDoc;
-        private System.Windows.Forms.DataGridViewTextBoxColumn titre;
-        private System.Windows.Forms.DataGridViewTextBoxColumn auteur;
-        private System.Windows.Forms.DataGridViewTextBoxColumn isbn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn lacollection;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idTitre;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nom;
-        private System.Windows.Forms.DataGridViewTextBoxColumn empruntable;
-        private System.Windows.Forms.DataGridViewTextBoxColumn periodicite;
-        private System.Windows.Forms.DataGridViewTextBoxColumn delaimiseadispo;
         private System.Windows.Forms.Label lblRayon;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TabPage tabReceptionRevue;
@@ -728,6 +780,22 @@ namespace Mediatek86
         private System.Windows.Forms.DateTimePicker dtpParution;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.GroupBox grpRevue;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idTitre;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nom;
+        private System.Windows.Forms.DataGridViewTextBoxColumn empruntable;
+        private System.Windows.Forms.DataGridViewTextBoxColumn periodicite;
+        private System.Windows.Forms.DataGridViewTextBoxColumn delaimiseadispo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn genre;
+        private System.Windows.Forms.ComboBox cbxGenres;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idDoc;
+        private System.Windows.Forms.DataGridViewTextBoxColumn titre;
+        private System.Windows.Forms.DataGridViewTextBoxColumn auteur;
+        private System.Windows.Forms.DataGridViewTextBoxColumn isbn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn lacollection;
+        private System.Windows.Forms.DataGridViewTextBoxColumn libellegenre;
+        private System.Windows.Forms.Label lblPublic;
+        private System.Windows.Forms.Label label19;
     }
 }
 

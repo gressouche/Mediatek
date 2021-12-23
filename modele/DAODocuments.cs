@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Mediatek86.bdd
 {
-    static class DAODocuments
+    static class DaoDocuments
     {
         /// <summary>
         /// Retourne toutes les catégories à partir de la BDD
@@ -19,15 +19,15 @@ namespace Mediatek86.bdd
             List<Categorie> lesCategories = new List<Categorie>();
             string req = "Select * from public";
 
-            DAOConnexion.connecter();
-            DAOConnexion.ReqSelect(req, null);
+            DaoConnexion.connecter();
+            DaoConnexion.ReqSelect(req, null);
  
-            while (DAOConnexion.Read())
+            while (DaoConnexion.Read())
             {
-                Categorie categorie = new Categorie((string)DAOConnexion.Field("id"),(string)DAOConnexion.Field("libelle"));
+                Categorie categorie = new Categorie((string)DaoConnexion.Field("id"),(string)DaoConnexion.Field("libelle"));
                 lesCategories.Add(categorie);
             }
-            DAOConnexion.deconnecter();
+            DaoConnexion.deconnecter();
             return lesCategories;
         }
 
@@ -41,15 +41,15 @@ namespace Mediatek86.bdd
             List<Genre> lesGenres = new List<Genre>();
             string req = "Select * from genre";
 
-            DAOConnexion.connecter();
-            DAOConnexion.ReqSelect(req, null);
+            DaoConnexion.connecter();
+            DaoConnexion.ReqSelect(req, null);
 
-            while (DAOConnexion.Read())
+            while (DaoConnexion.Read())
             {
-                Genre genre = new Genre((string)DAOConnexion.Field("id"), (string)DAOConnexion.Field("libelle"));
+                Genre genre = new Genre((string)DaoConnexion.Field("id"), (string)DaoConnexion.Field("libelle"));
                 lesGenres.Add(genre);
             }
-            DAOConnexion.deconnecter();
+            DaoConnexion.deconnecter();
             return lesGenres;
         }
 
@@ -63,15 +63,15 @@ namespace Mediatek86.bdd
             List<Rayon> lesRayons = new List<Rayon>();
             string req = "Select * from rayon";
 
-            DAOConnexion.connecter();
-            DAOConnexion.ReqSelect(req, null);
+            DaoConnexion.connecter();
+            DaoConnexion.ReqSelect(req, null);
 
-            while (DAOConnexion.Read())
+            while (DaoConnexion.Read())
             {
-                Rayon rayon = new Rayon((string)DAOConnexion.Field("id"), (string)DAOConnexion.Field("libelle"));
+                Rayon rayon = new Rayon((string)DaoConnexion.Field("id"), (string)DaoConnexion.Field("libelle"));
                 lesRayons.Add(rayon);
             }
-            DAOConnexion.deconnecter();
+            DaoConnexion.deconnecter();
             return lesRayons;
         }
 
@@ -85,16 +85,16 @@ namespace Mediatek86.bdd
             List<Livre> lesLivres = new List<Livre>();
             string req = "Select l.id, l.ISBN, l.auteur, d.titre, d.image, l.collection from livre l join document d on l.id=d.id";
 
-            DAOConnexion.connecter();
-            DAOConnexion.ReqSelect(req, null);
+            DaoConnexion.connecter();
+            DaoConnexion.ReqSelect(req, null);
 
-            while (DAOConnexion.Read())
+            while (DaoConnexion.Read())
             {
                 // On ne renseigne pas le genre et la catégorie car on ne peut pas ouvrir 2 dataReader dans la même connexion
-                Livre livre = new Livre((string)DAOConnexion.Field("id"), (string)DAOConnexion.Field("titre"), (string)DAOConnexion.Field("ISBN"), (string)DAOConnexion.Field("auteur"), (string)DAOConnexion.Field("collection"), (string)DAOConnexion.Field("image"));
+                Livre livre = new Livre((string)DaoConnexion.Field("id"), (string)DaoConnexion.Field("titre"), (string)DaoConnexion.Field("ISBN"), (string)DaoConnexion.Field("auteur"), (string)DaoConnexion.Field("collection"), (string)DaoConnexion.Field("image"));
                 lesLivres.Add(livre);
             }
-            DAOConnexion.deconnecter();
+            DaoConnexion.deconnecter();
 
             return lesLivres;
         }
@@ -113,18 +113,18 @@ namespace Mediatek86.bdd
                 { "@id", pLivre.IdDoc }
             };
 
-            DAOConnexion.connecter();
-            DAOConnexion.ReqSelect(req, parameters);
+            DaoConnexion.connecter();
+            DaoConnexion.ReqSelect(req, parameters);
 
-            if (DAOConnexion.Read())
+            if (DaoConnexion.Read())
             {
-                categorie = new Categorie((string)DAOConnexion.Field("id"), (string)DAOConnexion.Field("libelle"));
+                categorie = new Categorie((string)DaoConnexion.Field("id"), (string)DaoConnexion.Field("libelle"));
             }
             else
             {
                 categorie = null;
             }
-            DAOConnexion.deconnecter();
+            DaoConnexion.deconnecter();
             return categorie;
         }
 
@@ -143,18 +143,18 @@ namespace Mediatek86.bdd
                 { "@id", pLivre.IdDoc }
             };
 
-            DAOConnexion.connecter();
-            DAOConnexion.ReqSelect(req, parameters);
+            DaoConnexion.connecter();
+            DaoConnexion.ReqSelect(req, parameters);
 
-            if (DAOConnexion.Read())
+            if (DaoConnexion.Read())
             {
-                genre = new Genre((string)DAOConnexion.Field("id"), (string)DAOConnexion.Field("libelle"));
+                genre = new Genre((string)DaoConnexion.Field("id"), (string)DaoConnexion.Field("libelle"));
             }
             else
             {
                genre = null;
             }
-            DAOConnexion.deconnecter();
+            DaoConnexion.deconnecter();
             return genre;
         }
 
@@ -173,18 +173,18 @@ namespace Mediatek86.bdd
                 { "@id", pLivre.IdDoc }
             };
 
-            DAOConnexion.connecter();
-            DAOConnexion.ReqSelect(req, parameters);
+            DaoConnexion.connecter();
+            DaoConnexion.ReqSelect(req, parameters);
 
-            if (DAOConnexion.Read())
+            if (DaoConnexion.Read())
             {
-                rayon = new Rayon((string)DAOConnexion.Field("id"), (string)DAOConnexion.Field("libelle"));
+                rayon = new Rayon((string)DaoConnexion.Field("id"), (string)DaoConnexion.Field("libelle"));
             }
             else
             {
                 rayon = null;
             }
-            DAOConnexion.deconnecter();
+            DaoConnexion.deconnecter();
             return rayon;
         }
     }
