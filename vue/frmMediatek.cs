@@ -30,6 +30,7 @@ namespace Mediatek86
         static List<Revue> lesRevues;
         static List<Rayon> lesRayons;
         static List<Livre> lesLivres;
+        static List<Categorie> lesPublics;
         static List<Exemplaire> lesExemplairesParRevue;
         static Revue laRevue;
 
@@ -45,16 +46,12 @@ namespace Mediatek86
         }
 
         /// <summary>
-        /// Au lancement du formulaire, on crée la connection à la base de données et 
-        /// on charge des objets en mémoire.
+        /// Au lancement du formulaire, on charge des objets en mémoire.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void FrmMediatek_Load(object sender, EventArgs e)
         {
-            // Création de la connexion avec la base de données
-            controle.creerConnectionBDD();
-
             // Chargement des objets en mémoire
             lesGenres = controle.getAllGenres();
             lesRevues = controle.GetLesRevues();
@@ -79,6 +76,7 @@ namespace Mediatek86
             // Chargement de la liste déroulante à partir de la collection des Domaines
             cbxDomaines.DataSource = lesGenres;
             cbxDomaines.DisplayMember = "libelle";
+            cbxDomaines.Text = "";
 
             // On affiche d'abord tous les titres auxquels est abonnée la médiathèque
             dgvTitres.Rows.Clear();
@@ -133,6 +131,7 @@ namespace Mediatek86
             lesGenres = controle.getAllGenres();
             lesLivres = controle.getAllLivres();
             lesRayons = controle.getAllRayons();
+            lesPublics = controle.getAllPublics();
 
             // Affectation de la catégorie de public, du genre et du rayon à chaque Livre
             foreach (Livre livre in lesLivres)
@@ -146,11 +145,16 @@ namespace Mediatek86
             }
 
  
-            // On renseigne la liste déroulante des genres
+            // On renseigne les listes déroulantes des genres, publics et rayons
             cbxGenres.DataSource = lesGenres;
             cbxGenres.DisplayMember = "libelle";
-            cbxGenres.Text = "choisir un genre";
-
+            cbxGenres.Text = "";
+            cbxPublics.DataSource = lesPublics;
+            cbxPublics.DisplayMember = "libelle";
+            cbxPublics.Text = "";
+            cbxRayons.DataSource = lesRayons;
+            cbxRayons.DisplayMember = "libelle";
+            cbxRayons.Text = "";
 
             // A l'ouverture de l'onglet, on renseigne le datagrid avec l'ensemble des livres
             dgvLivres.Rows.Clear();
@@ -230,7 +234,48 @@ namespace Mediatek86
                     dgvLivres.Rows.Add(livre.IdDoc, livre.Titre, livre.Auteur, livre.ISBN, livre.LaCollection,livre.LeGenre.Libelle);
                 }
             }
+
+            // On n'affiche rien dans les autres combobox
+            cbxPublics.Text = "";
+            cbxRayons.Text = "";
         }
+
+        private void cbxPublics_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            dgvLivres.Rows.Clear();
+
+            // On parcourt tous les livres. Si le livre correspond au public sélectionné, on l'affiche dans le datagrid.
+            foreach (Livre livre in lesLivres)
+            {
+                if (livre.LaCategorie.Libelle == ((Categorie)cbxPublics.SelectedItem).Libelle)
+                {
+                    dgvLivres.Rows.Add(livre.IdDoc, livre.Titre, livre.Auteur, livre.ISBN, livre.LaCollection, livre.LeGenre.Libelle);
+                }
+            }
+
+            // On n'affiche rien dans les autres combobox
+            cbxGenres.Text = "";
+            cbxRayons.Text = "";
+        }
+
+        private void cbxRayons_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            dgvLivres.Rows.Clear();
+
+            // On parcourt tous les livres. Si le livre correspond au rayon sélectionné, on l'affiche dans le datagrid.
+            foreach (Livre livre in lesLivres)
+            {
+                if (livre.LeRayon.Libelle == ((Rayon)cbxRayons.SelectedItem).Libelle)
+                {
+                    dgvLivres.Rows.Add(livre.IdDoc, livre.Titre, livre.Auteur, livre.ISBN, livre.LaCollection, livre.LeGenre.Libelle);
+                }
+            }
+
+            // On n'affiche rien dans les autres combobox
+            cbxPublics.Text = "";
+            cbxGenres.Text = "";
+        }
+        
         #endregion
 
 
@@ -304,8 +349,9 @@ namespace Mediatek86
             MessageBox.Show("Ajout en bdd ok");
         }
 
+
         #endregion
 
-        
+  
     }
 }

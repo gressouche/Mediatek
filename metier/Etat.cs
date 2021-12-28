@@ -8,16 +8,13 @@ namespace Mediatek86.metier
 {
     class Etat
     {
-        private string id;
-        private string libelle;
-
         public Etat(string id, string libelle)
         {
-            this.id = id;
-            this.libelle = libelle;
+            this.Id = id;
+            this.Libelle = libelle;
         }
 
-        public string Id { get => id; set => id = value; }
-        public string Libelle { get => libelle; set => libelle = value; }
+        public string Id { get; set; }
+        public string Libelle { get; set; }
     }
 }

@@ -8,17 +8,13 @@ namespace Mediatek86.metier
 {
     class Categorie
     {
-        private string idCategorie;
-        private string libelle;
-
-
         public Categorie(string unId, string unLibelle)
         {
             IdCategorie = unId;
             Libelle = unLibelle;
         }
 
-        public string IdCategorie { get => idCategorie; set => idCategorie = value; }
-        public string Libelle { get => libelle; set => libelle = value; }
+        public string IdCategorie { get; set; }
+        public string Libelle { get; set; }
     }
 }

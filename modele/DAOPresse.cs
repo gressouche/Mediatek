@@ -10,6 +10,8 @@ namespace Mediatek86.bdd
 {
     static class DaoPresse
     {
+
+        private static readonly string connectionString = "server=localhost;user id=mediatek;password=q5OJ7QUAKHeBN3xe;database=mediatek86;SslMode=none";
         /// <summary>
         /// Recherche du Genre d'après son identifiant
         /// </summary>
@@ -24,17 +26,18 @@ namespace Mediatek86.bdd
                 { "@id", pId }
             };
 
-            DaoConnexion.connecter();
-            DaoConnexion.ReqSelect(req, parameters);
-            if (DaoConnexion.Read())
+            DaoConnexion curs = DaoConnexion.GetInstance(connectionString);
+            curs.ReqSelect(req, parameters);
+
+            if (curs.Read())
             {
-                genre = new Genre((string)DaoConnexion.Field("id"), (string)DaoConnexion.Field("libelle"));
+                genre = new Genre((string)curs.Field("id"), (string)curs.Field("libelle"));
             }
             else
             {
                 genre = null;
             }
-            DaoConnexion.deconnecter();
+            curs.Close();
             return genre;
         }
 
@@ -53,18 +56,18 @@ namespace Mediatek86.bdd
                 { "@id", pRevue.IdDoc }
             };
 
-            DaoConnexion.connecter();
-            DaoConnexion.ReqSelect(req, parameters);
+            DaoConnexion curs = DaoConnexion.GetInstance(connectionString);
+            curs.ReqSelect(req, parameters);
 
-            if (DaoConnexion.Read())
+            if (curs.Read())
             {
-                genre = new Genre((string)DaoConnexion.Field("id"), (string)DaoConnexion.Field("libelle"));
+                genre = new Genre((string)curs.Field("id"), (string)curs.Field("libelle"));
             }
             else
             {
                 genre = null;
             }
-            DaoConnexion.deconnecter();
+            curs.Close();
             return genre;
         }
 
@@ -75,16 +78,16 @@ namespace Mediatek86.bdd
         public static List<Revue> getLesRevues()
         {
             List<Revue> lesRevues = new List<Revue>();
-            string req = "select r.id, titre, image, empruntable, periodicite, delaimiseadispo from revue r join document d on r.id = d.id";
-            DaoConnexion.connecter();
-            DaoConnexion.ReqSelect(req, null);
-            while (DaoConnexion.Read())
+            string req = "select r.id, titre, image, empruntable, periodicite, delaimiseadispo from revue r join document d on r.id = d.id order by titre";
+            DaoConnexion curs = DaoConnexion.GetInstance(connectionString);
+            curs.ReqSelect(req, null);
+            while (curs.Read())
             {
-                Revue revue = new Revue((string)DaoConnexion.Field("id"), (string)DaoConnexion.Field("titre"), (string)DaoConnexion.Field("image"), char.Parse((string)DaoConnexion.Field("empruntable")), (string)DaoConnexion.Field("periodicite"), (int)DaoConnexion.Field("delaimiseadispo"));
+                Revue revue = new Revue((string)curs.Field("id"), (string)curs.Field("titre"), (string)curs.Field("image"), char.Parse((string)curs.Field("empruntable")), (string)curs.Field("periodicite"), (int)curs.Field("delaimiseadispo"));
                 lesRevues.Add(revue);
 
             }
-            DaoConnexion.deconnecter();
+            curs.Close();
             return lesRevues;
         }
 
@@ -103,17 +106,17 @@ namespace Mediatek86.bdd
                 { "@id", pRevue.IdDoc }
             };
 
-            DaoConnexion.connecter();
-            DaoConnexion.ReqSelect(req, parameters);
+            DaoConnexion curs = DaoConnexion.GetInstance(connectionString);
+            curs.ReqSelect(req, parameters);
 
-            while (DaoConnexion.Read())
+            while (curs.Read())
             {
-                Exemplaire exemplaire = new Exemplaire(int.Parse(DaoConnexion.Field("numero").ToString()), (DateTime)DaoConnexion.Field("dateAchat"), (string)DaoConnexion.Field("photo"), (string)DaoConnexion.Field("etat"));
+                Exemplaire exemplaire = new Exemplaire(int.Parse(curs.Field("numero").ToString()), (DateTime)curs.Field("dateAchat"), (string)curs.Field("photo"), (string)curs.Field("etat"));
                 exemplaire.Document = pRevue.getInstanceDocument();
                 lesExemplaires.Add(exemplaire);
             }
 
-            DaoConnexion.deconnecter();
+            curs.Close();
             return lesExemplaires;
         }
 
@@ -140,17 +143,18 @@ namespace Mediatek86.bdd
                 { "@photo", exemplaire.Photo},
                 { "@idEtat", etat}
             };
-            DaoConnexion.connecter();
+
+            DaoConnexion curs = DaoConnexion.GetInstance(connectionString);
             try
             {
-                DaoConnexion.ReqUpdate(req, parameters);
+                curs.ReqUpdate(req, parameters);
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
 
-            DaoConnexion.deconnecter();
+            curs.Close();
         }
     }
 }

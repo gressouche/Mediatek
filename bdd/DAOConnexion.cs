@@ -8,71 +8,68 @@ using MySql.Data.MySqlClient;
 
 namespace Mediatek86.bdd
 {
-    static class DaoConnexion
+    class DaoConnexion
     {
-        private static MySqlConnection connexion;
-        private static MySqlDataReader reader;
+        /// <summary>
+        /// Unique instance de la classe
+        /// </summary>
+        private static DaoConnexion instance = null;
+        
+        /// <summary>
+        /// objet de connexion à la BDD à partir d'une chaîne de connexion
+        /// </summary>
+        private readonly MySqlConnection connection;
 
         /// <summary>
-        /// Crée l'objet Connection pour lier le programme à la base de données
+        /// objet contenant le résultat d'une requête "select" (curseur)
         /// </summary>
-        public static void creerConnection()
-        {
-            string serverIp = "127.0.0.1";
-            string username = "mediatek";
-            string password = "q5OJ7QUAKHeBN3xe";
-            string databaseName = "mediatek86";
-
-            string dbConnectionString = string.Format("server={0};uid={1};pwd={2};database={3};", serverIp, username, password, databaseName);
-
-            try
-            {
-                connexion = new MySqlConnection(dbConnectionString);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Erreur connexion BDD" + ex.Message);
-                Application.Exit();
-            }
-
-        }
+        private MySqlDataReader reader;
 
         /// <summary>
-        /// Ouvre la connection pour permettre une requête SQL
+        /// Constructeur privé pour créer la connexion à la BDD et l'ouvrir
         /// </summary>
-        public static void connecter()
+        /// <param name="stringConnect">chaine de connexion</param>
+        private DaoConnexion(string stringConnect)
         {
             try
             {
-                connexion.Open();
+                connection = new MySqlConnection(stringConnect);
+                connection.Open();
             }
             catch (Exception e)
             {
-                Console.WriteLine("Erreur ouverture connection BDD -" + e.Message);
+                Console.WriteLine(e.Message);
+                Application.Exit();
             }
         }
 
-        /// <summary>
-        /// Ferme la connection dès que la requête est faire
-        /// </summary>
-        public static void deconnecter()
-        {
-            connexion.Close();
-        }
 
+        /// <summary>
+        /// Crée une instance unique de la classe
+        /// </summary>
+        /// <param name="stringConnect">chaine de connexion</param>
+        /// <returns>instance unique de la classe</returns>
+        public static DaoConnexion GetInstance(string stringConnect)
+        {
+            if (instance is null)
+            {
+                instance = new DaoConnexion(stringConnect);
+            }
+            return instance;
+        }
 
 
         /// <summary>
         /// Exécute une requête type "select" et valorise le curseur
         /// </summary>
         /// <param name="stringQuery">requête select</param>
-        public static void ReqSelect(string stringQuery, Dictionary<string, object> parameters)
+        public void ReqSelect(string stringQuery, Dictionary<string, object> parameters)
         {
             MySqlCommand command;
             
             try
             {
-                command = new MySqlCommand(stringQuery, connexion);
+                command = new MySqlCommand(stringQuery, connection);
                 if (!(parameters is null))
                 {
                     foreach (KeyValuePair<string, object> parameter in parameters)
@@ -94,7 +91,7 @@ namespace Mediatek86.bdd
         /// Tente de lire la ligne suivante du curseur
         /// </summary>
         /// <returns>false si fin de curseur atteinte</returns>
-        public static bool Read()
+        public bool Read()
         {
             if (reader is null)
             {
@@ -116,7 +113,7 @@ namespace Mediatek86.bdd
         /// </summary>
         /// <param name="nameField">nom du champ</param>
         /// <returns>valeur du champ</returns>
-        public static object Field(string nameField)
+        public object Field(string nameField)
         {
             if (reader is null)
             {
@@ -138,12 +135,12 @@ namespace Mediatek86.bdd
         /// </summary>
         /// <param name="stringQuery">requête autre que select</param>
         /// <param name="parameters">dictionnire contenant les parametres</param>
-        public static void ReqUpdate(string stringQuery, Dictionary<string, object> parameters)
+        public void ReqUpdate(string stringQuery, Dictionary<string, object> parameters)
         {
             MySqlCommand command;
             try
             {
-                command = new MySqlCommand(stringQuery, connexion);
+                command = new MySqlCommand(stringQuery, connection);
                 if (!(parameters is null))
                 {
                     foreach (KeyValuePair<string, object> parameter in parameters)
@@ -158,6 +155,17 @@ namespace Mediatek86.bdd
             {
                 Console.WriteLine(ex.Message);
                 throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Fermeture du curseur
+        /// </summary>
+        public void Close()
+        {
+            if (!(reader is null))
+            {
+                reader.Close();
             }
         }
     }

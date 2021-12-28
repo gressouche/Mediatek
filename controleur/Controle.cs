@@ -29,15 +29,6 @@ namespace Mediatek86.controleur
 
 
         /// <summary>
-        /// Création de la connection à la base de données
-        /// </summary>
-        public void creerConnectionBDD()
-        {
-            DaoConnexion.creerConnection();
-        }
-
-
-        /// <summary>
         /// Récupère tous les titres de presse
         /// </summary>
         /// <returns>liste des titres</returns>
@@ -79,6 +70,12 @@ namespace Mediatek86.controleur
         public List<Rayon> getAllRayons()
         {
             return DaoDocuments.getAllRayons();
+        }
+
+
+        public List<Categorie> getAllPublics()
+        {
+            return DaoDocuments.getAllPublics();
         }
 
         public List<Exemplaire> getLesExemplairesByRevue(Revue revue)
