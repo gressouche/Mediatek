@@ -82,7 +82,7 @@ namespace Mediatek86
             dgvTitres.Rows.Clear();
             foreach (Revue revue in lesRevues)
             {
-                    dgvTitres.Rows.Add(revue.IdDoc, revue.Titre, revue.Empruntable, revue.Periodicite, revue.DelaiMiseADispo, revue.LeGenre.Libelle);
+                dgvTitres.Rows.Add(revue.IdDoc, revue.Titre, revue.Empruntable, revue.Periodicite, revue.DelaiMiseADispo, revue.LeGenre.Libelle);
             }
         }
 
@@ -107,7 +107,7 @@ namespace Mediatek86
             {
                 if (revue.LeGenre.IdGenre == genreSelectionne.IdGenre)
                 {
-                    dgvTitres.Rows.Add(revue.IdDoc, revue.Titre, revue.Empruntable, revue.Periodicite, revue.DelaiMiseADispo,revue.LeGenre.Libelle);
+                    dgvTitres.Rows.Add(revue.IdDoc, revue.Titre, revue.Empruntable, revue.Periodicite, revue.DelaiMiseADispo, revue.LeGenre.Libelle);
                 }
             }
         }
@@ -144,7 +144,9 @@ namespace Mediatek86
                 livre.LeRayon = rayon;
             }
 
- 
+            // On cache le pictureBox car pas d'image à afficher
+            pbxImage.Hide();
+
             // On renseigne les listes déroulantes des genres, publics et rayons
             cbxGenres.DataSource = lesGenres;
             cbxGenres.DisplayMember = "libelle";
@@ -192,6 +194,9 @@ namespace Mediatek86
                     lblImage.Text = livre.Image;
                     lblRayon.Text = livre.LeRayon.Libelle;
                     lblPublic.Text = livre.LaCategorie.Libelle;
+                    pbxImage.ImageLocation = livre.Image;
+                    pbxImage.SizeMode = PictureBoxSizeMode.StretchImage;
+                    pbxImage.Show();
                     trouve = true;
                 }
             }
@@ -217,7 +222,7 @@ namespace Mediatek86
                 //on teste si le titre du livre contient ce qui a été saisi
                 if (titreMinuscules.Contains(saisieMinuscules))
                 {
-                    dgvLivres.Rows.Add(livre.IdDoc, livre.Titre, livre.Auteur, livre.ISBN, livre.LaCollection,livre.LeGenre.Libelle);
+                    dgvLivres.Rows.Add(livre.IdDoc, livre.Titre, livre.Auteur, livre.ISBN, livre.LaCollection, livre.LeGenre.Libelle);
                 }
             }
         }
@@ -231,7 +236,7 @@ namespace Mediatek86
             {
                 if (livre.LeGenre.Libelle == ((Genre)cbxGenres.SelectedItem).Libelle)
                 {
-                    dgvLivres.Rows.Add(livre.IdDoc, livre.Titre, livre.Auteur, livre.ISBN, livre.LaCollection,livre.LeGenre.Libelle);
+                    dgvLivres.Rows.Add(livre.IdDoc, livre.Titre, livre.Auteur, livre.ISBN, livre.LaCollection, livre.LeGenre.Libelle);
                 }
             }
 
@@ -275,7 +280,7 @@ namespace Mediatek86
             cbxPublics.Text = "";
             cbxGenres.Text = "";
         }
-        
+
         #endregion
 
 
@@ -320,7 +325,7 @@ namespace Mediatek86
             }
         }
 
-       
+
         private void btnValider_Click(object sender, EventArgs e)
         {
             int numParution;
@@ -339,7 +344,7 @@ namespace Mediatek86
 
             try
             {
-               controle.creerExemplaire(exemplaireACreer);
+                controle.creerExemplaire(exemplaireACreer);
             }
             catch (Exception ex)
             {
@@ -352,6 +357,6 @@ namespace Mediatek86
 
         #endregion
 
-  
+
     }
 }

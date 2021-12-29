@@ -43,6 +43,10 @@ namespace Mediatek86
             this.cbxDomaines = new System.Windows.Forms.ComboBox();
             this.tabLivres = new System.Windows.Forms.TabPage();
             this.grpRechercheTitre = new System.Windows.Forms.GroupBox();
+            this.cbxRayons = new System.Windows.Forms.ComboBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.cbxPublics = new System.Windows.Forms.ComboBox();
+            this.label20 = new System.Windows.Forms.Label();
             this.cbxGenres = new System.Windows.Forms.ComboBox();
             this.label14 = new System.Windows.Forms.Label();
             this.dgvLivres = new System.Windows.Forms.DataGridView();
@@ -91,10 +95,7 @@ namespace Mediatek86
             this.label15 = new System.Windows.Forms.Label();
             this.txbIdRevue = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.cbxPublics = new System.Windows.Forms.ComboBox();
-            this.label21 = new System.Windows.Forms.Label();
-            this.cbxRayons = new System.Windows.Forms.ComboBox();
+            this.pbxImage = new System.Windows.Forms.PictureBox();
             this.tabOngletsApplication.SuspendLayout();
             this.tabTitres.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTitres)).BeginInit();
@@ -105,6 +106,7 @@ namespace Mediatek86
             this.tabReceptionRevue.SuspendLayout();
             this.grpParution.SuspendLayout();
             this.grpRevue.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxImage)).BeginInit();
             this.SuspendLayout();
             // 
             // tabOngletsApplication
@@ -237,12 +239,50 @@ namespace Mediatek86
             this.grpRechercheTitre.Controls.Add(this.dgvLivres);
             this.grpRechercheTitre.Controls.Add(this.label6);
             this.grpRechercheTitre.Controls.Add(this.txbTitre);
-            this.grpRechercheTitre.Location = new System.Drawing.Point(8, 251);
+            this.grpRechercheTitre.Location = new System.Drawing.Point(8, 284);
             this.grpRechercheTitre.Name = "grpRechercheTitre";
             this.grpRechercheTitre.Size = new System.Drawing.Size(776, 264);
             this.grpRechercheTitre.TabIndex = 18;
             this.grpRechercheTitre.TabStop = false;
-            this.grpRechercheTitre.Text = "RECHERCHE PAR TITRE OU PAR GENRE";
+            this.grpRechercheTitre.Text = "RECHERCHE PAR TITRE, GENRE, PUBLIC, RAYON";
+            // 
+            // cbxRayons
+            // 
+            this.cbxRayons.FormattingEnabled = true;
+            this.cbxRayons.Location = new System.Drawing.Point(236, 60);
+            this.cbxRayons.Name = "cbxRayons";
+            this.cbxRayons.Size = new System.Drawing.Size(165, 21);
+            this.cbxRayons.TabIndex = 10;
+            this.cbxRayons.SelectedIndexChanged += new System.EventHandler(this.cbxRayons_SelectedIndexChanged);
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.Location = new System.Drawing.Point(83, 63);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(153, 13);
+            this.label21.TabIndex = 9;
+            this.label21.Text = "Ou sélectionner le rayon :";
+            // 
+            // cbxPublics
+            // 
+            this.cbxPublics.FormattingEnabled = true;
+            this.cbxPublics.Location = new System.Drawing.Point(595, 60);
+            this.cbxPublics.Name = "cbxPublics";
+            this.cbxPublics.Size = new System.Drawing.Size(165, 21);
+            this.cbxPublics.TabIndex = 8;
+            this.cbxPublics.SelectedIndexChanged += new System.EventHandler(this.cbxPublics_SelectedIndexChanged);
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.Location = new System.Drawing.Point(435, 63);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(156, 13);
+            this.label20.TabIndex = 7;
+            this.label20.Text = "Ou sélectionner le public :";
             // 
             // cbxGenres
             // 
@@ -333,6 +373,7 @@ namespace Mediatek86
             // 
             // grpRechercheCode
             // 
+            this.grpRechercheCode.Controls.Add(this.pbxImage);
             this.grpRechercheCode.Controls.Add(this.lblPublic);
             this.grpRechercheCode.Controls.Add(this.label19);
             this.grpRechercheCode.Controls.Add(this.lblRayon);
@@ -354,7 +395,7 @@ namespace Mediatek86
             this.grpRechercheCode.Controls.Add(this.label9);
             this.grpRechercheCode.Location = new System.Drawing.Point(8, 19);
             this.grpRechercheCode.Name = "grpRechercheCode";
-            this.grpRechercheCode.Size = new System.Drawing.Size(776, 206);
+            this.grpRechercheCode.Size = new System.Drawing.Size(776, 245);
             this.grpRechercheCode.TabIndex = 17;
             this.grpRechercheCode.TabStop = false;
             this.grpRechercheCode.Text = "RECHERCHE PAR CODE DOCUMENT";
@@ -711,43 +752,13 @@ namespace Mediatek86
             this.label3.TabIndex = 5;
             this.label3.Text = "Réception d\'un numéro de presse";
             // 
-            // label20
+            // pbxImage
             // 
-            this.label20.AutoSize = true;
-            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.Location = new System.Drawing.Point(435, 63);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(156, 13);
-            this.label20.TabIndex = 7;
-            this.label20.Text = "Ou sélectionner le public :";
-            // 
-            // cbxPublics
-            // 
-            this.cbxPublics.FormattingEnabled = true;
-            this.cbxPublics.Location = new System.Drawing.Point(595, 60);
-            this.cbxPublics.Name = "cbxPublics";
-            this.cbxPublics.Size = new System.Drawing.Size(165, 21);
-            this.cbxPublics.TabIndex = 8;
-            this.cbxPublics.SelectedIndexChanged += new System.EventHandler(this.cbxPublics_SelectedIndexChanged);
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(83, 63);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(153, 13);
-            this.label21.TabIndex = 9;
-            this.label21.Text = "Ou sélectionner le rayon :";
-            // 
-            // cbxRayons
-            // 
-            this.cbxRayons.FormattingEnabled = true;
-            this.cbxRayons.Location = new System.Drawing.Point(236, 60);
-            this.cbxRayons.Name = "cbxRayons";
-            this.cbxRayons.Size = new System.Drawing.Size(165, 21);
-            this.cbxRayons.TabIndex = 10;
-            this.cbxRayons.SelectedIndexChanged += new System.EventHandler(this.cbxRayons_SelectedIndexChanged);
+            this.pbxImage.Location = new System.Drawing.Point(619, 19);
+            this.pbxImage.Name = "pbxImage";
+            this.pbxImage.Size = new System.Drawing.Size(140, 210);
+            this.pbxImage.TabIndex = 21;
+            this.pbxImage.TabStop = false;
             // 
             // FrmMediatek
             // 
@@ -774,6 +785,7 @@ namespace Mediatek86
             this.grpParution.PerformLayout();
             this.grpRevue.ResumeLayout(false);
             this.grpRevue.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxImage)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -846,6 +858,7 @@ namespace Mediatek86
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.ComboBox cbxRayons;
         private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.PictureBox pbxImage;
     }
 }
 
