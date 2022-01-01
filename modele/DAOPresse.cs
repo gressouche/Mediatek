@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
 using Mediatek86.metier;
 
 namespace Mediatek86.bdd
@@ -100,7 +96,7 @@ namespace Mediatek86.bdd
         {
             List<Exemplaire> lesExemplaires = new List<Exemplaire>();
 
-            string req = "Select ex.numero,ex.dateAchat,ex.photo, et.libelle from exemplaire ex join etat et on et.id = ex.idEtat where ex.id=@id";
+            string req = "Select ex.numero,ex.dateAchat,ex.photo, et.id from exemplaire ex join etat et on et.id = ex.idEtat where ex.id=@id";
             Dictionary<string, object> parameters = new Dictionary<string, object>
             {
                 { "@id", pRevue.IdDoc }
@@ -111,7 +107,7 @@ namespace Mediatek86.bdd
 
             while (curs.Read())
             {
-                Exemplaire exemplaire = new Exemplaire(int.Parse(curs.Field("numero").ToString()), (DateTime)curs.Field("dateAchat"), (string)curs.Field("photo"), (string)curs.Field("etat"));
+                Exemplaire exemplaire = new Exemplaire(int.Parse(curs.Field("numero").ToString()), (DateTime)curs.Field("dateAchat"), (string)curs.Field("photo"), (string)curs.Field("id"));
                 exemplaire.Document = pRevue.getInstanceDocument();
                 lesExemplaires.Add(exemplaire);
             }
@@ -126,14 +122,6 @@ namespace Mediatek86.bdd
         /// <param name="exemplaire">L'objet Exemplaire</param>
         public static void creerExemplaire(Exemplaire exemplaire)
         {
-            string etat = null;
-            switch (exemplaire.Etat)
-            {
-                case "neuf": { etat = "00001"; break; }
-                case "usagé": { etat = "00002"; break; }
-                case "détérioré": { etat = "00003"; break; }
-                case "inutilisable": { etat = "00004"; break; }
-            }
             string req = "insert into exemplaire values (@idDoc,@numero,@dateParution,@photo,@idEtat)";
             Dictionary<string, object> parameters = new Dictionary<string, object>
             {
@@ -141,7 +129,7 @@ namespace Mediatek86.bdd
                 { "@numero", exemplaire.Numero},
                 { "@dateParution", exemplaire.DateAchat},
                 { "@photo", exemplaire.Photo},
-                { "@idEtat", etat}
+                { "@idEtat",exemplaire.IdEtat}
             };
 
             DaoConnexion curs = DaoConnexion.GetInstance(connectionString);

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Mediatek86.metier
 {
     class Revue : Document
@@ -16,10 +11,6 @@ namespace Mediatek86.metier
             DelaiMiseADispo = unDelai;
         }
 
-        public Document getInstanceDocument()
-        {
-            return base.getInstance();
-        }
 
         public string Periodicite { get; set; }
         public char Empruntable { get; set; }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Mediatek86.bdd;
 using Mediatek86.metier;
 
@@ -13,17 +9,11 @@ namespace Mediatek86.controleur
     {
 
         /// <summary>
-        /// fenêtre d'authentification
-        /// </summary>
-        private readonly FrmMediatek frmMediatek;
-
-
-        /// <summary>
         /// Ouverture de la fenêtre
         /// </summary>
         public Controle()
         {
-            frmMediatek = new FrmMediatek(this);
+            FrmMediatek frmMediatek = new FrmMediatek(this);
             frmMediatek.ShowDialog();
         }
 
@@ -32,7 +22,7 @@ namespace Mediatek86.controleur
         /// Récupère tous les titres de presse
         /// </summary>
         /// <returns>liste des titres</returns>
-        public List<Revue> GetLesRevues()
+        public List<Revue> getLesRevues()
         {
             return DaoPresse.getLesRevues();
         }
@@ -49,55 +39,108 @@ namespace Mediatek86.controleur
         }
 
 
+        /// <summary>
+        /// Récupère toutes les catégories de public de la bdd
+        /// </summary>
+        /// <returns>Collection des objets Categorie</returns>
         public List<Categorie> getAllCategories()
         {
             return DaoDocuments.getAllCategories();
         }
 
 
+        /// <summary>
+        /// Récupère tous les genres de documents depuis la bdd
+        /// </summary>
+        /// <returns>Collection d'objets Genre</returns>
         public List<Genre> getAllGenres()
         {
             return DaoDocuments.getAllGenres();
         }
 
 
+        /// <summary>
+        /// Récupère tous les livres de la bdd
+        /// </summary>
+        /// <returns>Collection d'objets Livre</returns>
         public List<Livre> getAllLivres()
         {
             return DaoDocuments.getAllLivres();
         }
 
 
+        /// <summary>
+        /// Récupère tous les rayons de la bdd
+        /// </summary>
+        /// <returns>Collection d'objets Rayon</returns>
         public List<Rayon> getAllRayons()
         {
             return DaoDocuments.getAllRayons();
         }
 
 
+        /// <summary>
+        /// Récupère toutes les catégories de public de la bdd
+        /// </summary>
+        /// <returns>Collection d'objets Categorie</returns>
         public List<Categorie> getAllPublics()
         {
             return DaoDocuments.getAllPublics();
         }
 
+
+        /// <summary>
+        /// Récupère les exemplaires d'une revue
+        /// </summary>
+        /// <param name="revue">L'objet Revue concerné</param>
+        /// <returns>Collection d'objets Exemplaire</returns>
         public List<Exemplaire> getLesExemplairesByRevue(Revue revue)
         {
             return DaoPresse.getLesExemplairesByRevue(revue);
         }
 
 
+        /// <summary>
+        /// Crée un exemplaire d'une revue dans la bdd
+        /// </summary>
+        /// <param name="exemplaire">L'objet Exemplaire concerné</param>
         public void creerExemplaire(Exemplaire exemplaire)
         {
             DaoPresse.creerExemplaire(exemplaire);
         }
 
+
+        /// <summary>
+        /// Récupère le genre associé à un livre
+        /// </summary>
+        /// <param name="livre">L'objet Livre concerné</param>
+        /// <returns>L'objet Genre associé à ce Livre</returns>
         public Genre getGenreByLivre(Livre livre)
         {
             return DaoDocuments.getGenreByLivre(livre);
 
         }
 
+
+        /// <summary>
+        /// Récupère le rayon où est entreposé un livre
+        /// </summary>
+        /// <param name="livre">L'objet Livre concerné</param>
+        /// <returns>L'objet Rayon associé à ce Livre</returns>
         public Rayon getRayonByLivre(Livre livre)
         {
             return DaoDocuments.getRayonByLivre(livre);
+        }
+
+
+        /// <summary>
+        /// Récupère la catégorie de public concerné par un livre
+        /// </summary>
+        /// <param name="livre">L'objet Livre concerné</param>
+        /// <returns>L'objet Categorie associé</returns>
+        public Categorie getCategorieByLivre(Livre livre)
+        {
+            return DaoDocuments.getCategorieByLivre(livre);
         }
 
     }

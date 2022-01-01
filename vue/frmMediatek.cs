@@ -1,13 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Mediatek86.bdd;
 using Mediatek86.metier;
 using Mediatek86.controleur;
 
@@ -25,14 +18,14 @@ namespace Mediatek86
         /// <summary>
         /// Collections pour stocker les objets
         /// </summary>
-        static List<Categorie> lesCategories;
-        static List<Genre> lesGenres;
-        static List<Revue> lesRevues;
-        static List<Rayon> lesRayons;
-        static List<Livre> lesLivres;
-        static List<Categorie> lesPublics;
-        static List<Exemplaire> lesExemplairesParRevue;
-        static Revue laRevue;
+        List<Categorie> lesCategories;
+        List<Genre> lesGenres;
+        List<Revue> lesRevues;
+        List<Rayon> lesRayons;
+        List<Livre> lesLivres;
+        List<Categorie> lesPublics;
+        List<Exemplaire> lesExemplairesParRevue;
+        Revue laRevue;
 
         #endregion
 
@@ -54,13 +47,13 @@ namespace Mediatek86
         {
             // Chargement des objets en mémoire
             lesGenres = controle.getAllGenres();
-            lesRevues = controle.GetLesRevues();
+            lesRevues = controle.getLesRevues();
 
-            // Affectation du Domaine à chaque Titre
+            // Affectation du Domaine ou Genre à chaque Titre
             foreach (Revue revue in lesRevues)
             {
-                Genre genre = controle.getGenreByRevue(revue);
-                revue.LeGenre = genre;
+                Genre genreDeLaRevue = controle.getGenreByRevue(revue);
+                revue.LeGenre = genreDeLaRevue;
             }
         }
 
@@ -71,6 +64,13 @@ namespace Mediatek86
         //-----------------------------------------------------------
         // ONGLET "Revues"
         //------------------------------------------------------------
+
+        /// <summary>
+        /// Ouverture de l'onglet : on renseigne la liste déroulante et
+        /// on remplit le DataGrid
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tabTitres_Enter(object sender, EventArgs e)
         {
             // Chargement de la liste déroulante à partir de la collection des Domaines
@@ -111,6 +111,23 @@ namespace Mediatek86
                 }
             }
         }
+
+
+        /// <summary>
+        /// Bouton qui annule le filtre sur les domaines
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnTousDomaines_Click(object sender, EventArgs e)
+        {
+            // On affiche tous les titres auxquels est abonnée la médiathèque
+            dgvTitres.Rows.Clear();
+            foreach (Revue revue in lesRevues)
+            {
+                dgvTitres.Rows.Add(revue.IdDoc, revue.Titre, revue.Empruntable, revue.Periodicite, revue.DelaiMiseADispo, revue.LeGenre.Libelle);
+            }
+            cbxDomaines.Text = "";
+        }
         #endregion
 
 
@@ -120,7 +137,11 @@ namespace Mediatek86
         //-----------------------------------------------------------
 
         /// <summary>
-        /// Ouverture de l'onglet Livres : chargement des catégories, genres et livres an mémoire
+        /// Ouverture de l'onglet Livres : 
+        /// - chargement des catégories, genres et livres en mémoire
+        /// - affectation des références de ces objets à chaque Livre
+        /// - alimentation des listes déroulantes
+        /// - affichage de la liste des livres non filtrée
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -136,11 +157,11 @@ namespace Mediatek86
             // Affectation de la catégorie de public, du genre et du rayon à chaque Livre
             foreach (Livre livre in lesLivres)
             {
-                Categorie categorie = DaoDocuments.getCategorieByLivre(livre);
-                Genre genre = controle.getGenreByLivre(livre);
+                Categorie categorie = controle.getCategorieByLivre(livre);
+                Genre genreDuLivre = controle.getGenreByLivre(livre);
                 Rayon rayon = controle.getRayonByLivre(livre);
                 livre.LaCategorie = categorie;
-                livre.LeGenre = genre;
+                livre.LeGenre = genreDuLivre;
                 livre.LeRayon = rayon;
             }
 
@@ -150,13 +171,13 @@ namespace Mediatek86
             // On renseigne les listes déroulantes des genres, publics et rayons
             cbxGenres.DataSource = lesGenres;
             cbxGenres.DisplayMember = "libelle";
-            cbxGenres.Text = "";
             cbxPublics.DataSource = lesPublics;
-            cbxPublics.DisplayMember = "libelle";
-            cbxPublics.Text = "";
+            cbxPublics.DisplayMember = "libelle";           
             cbxRayons.DataSource = lesRayons;
             cbxRayons.DisplayMember = "libelle";
             cbxRayons.Text = "";
+            cbxGenres.Text = "";
+            cbxPublics.Text = "";
 
             // A l'ouverture de l'onglet, on renseigne le datagrid avec l'ensemble des livres
             dgvLivres.Rows.Clear();
@@ -167,6 +188,12 @@ namespace Mediatek86
 
         }
 
+        /// <summary>
+        /// Recherche et affichage du livre dont on a saisi le numéro.
+        /// Si non trouvé, affichage d'un MessageBox.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnRechercher_Click(object sender, EventArgs e)
         {
             // On réinitialise les labels
@@ -204,6 +231,13 @@ namespace Mediatek86
                 MessageBox.Show("Document non trouvé dans les livres");
         }
 
+        /// <summary>
+        /// Recherche et affichage des livres dont le titre matche acec la saisie.
+        /// Cette procédure est exécutée à chaque ajout ou suppression de caractère
+        /// dans le textBox de saisie.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void txbTitre_TextChanged(object sender, EventArgs e)
         {
             dgvLivres.Rows.Clear();
@@ -227,9 +261,20 @@ namespace Mediatek86
             }
         }
 
+        /// <summary>
+        /// Filtre sur le genre pour afficher la liste des livres.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cbxGenres_SelectedIndexChanged(object sender, EventArgs e)
         {
             dgvLivres.Rows.Clear();
+
+            if (cbxGenres.SelectedItem==null)
+            {
+                MessageBox.Show("Aucun résultat");
+                return;
+            }
 
             // On parcourt tous les livres. Si le livre correspond au genre sélectionné, on l'affiche dans le datagrid.
             foreach (Livre livre in lesLivres)
@@ -245,6 +290,11 @@ namespace Mediatek86
             cbxRayons.Text = "";
         }
 
+        /// <summary>
+        /// Filtre sur la catégorie de public pour la liste des livres
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cbxPublics_SelectedIndexChanged(object sender, EventArgs e)
         {
             dgvLivres.Rows.Clear();
@@ -263,6 +313,11 @@ namespace Mediatek86
             cbxRayons.Text = "";
         }
 
+        /// <summary>
+        /// Filtre sur le rayon pour la liste des livres
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cbxRayons_SelectedIndexChanged(object sender, EventArgs e)
         {
             dgvLivres.Rows.Clear();
@@ -285,6 +340,15 @@ namespace Mediatek86
 
 
         #region Réception Exemplaire de presse
+        //-----------------------------------------------------------
+        // ONGLET "RECEPTION DE REVUES"
+        //-----------------------------------------------------------
+
+        /// <summary>
+        /// Ouverture de l'onglet : blocage en saisie des champs de saisie des infos de l'exemplaire
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tabReceptionRevue_Enter(object sender, EventArgs e)
         {
             txbNumero.Enabled = false;
@@ -293,7 +357,14 @@ namespace Mediatek86
             btnValider.Enabled = false;
         }
 
-
+        /// <summary>
+        /// Après sélection d'un identifiant de revue, on rechereche les exemplaires existants de cette revue.
+        /// - si la revue n'est pas trouvée : affichage d'un MessageBox
+        /// - si trouvée : constitution d'une collection d'objets Exemplaire, et déblocage des champs
+        /// permettant la saisie des infos du nouvel exemplaire à créer.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnRechercherRevue_Click(object sender, EventArgs e)
         {
             bool trouve = false;
@@ -325,7 +396,14 @@ namespace Mediatek86
             }
         }
 
-
+        /// <summary>
+        /// Validation de la saisie des infos :
+        /// - vérification que le numéro saisi est numérique
+        /// - instanciation d'un objet Exemplaire
+        /// - appel du contrôleur pour crézr l'exemplaire en bdd
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnValider_Click(object sender, EventArgs e)
         {
             int numParution;
@@ -333,13 +411,13 @@ namespace Mediatek86
             {
                 numParution = int.Parse(txbNumero.Text);
             }
-            catch (FormatException exception)
+            catch (FormatException)
             {
                 MessageBox.Show("Numéro saisi non numérique");
                 return;
             }
 
-            Exemplaire exemplaireACreer = new Exemplaire(numParution, dtpParution.Value, txbImage.Text, "neuf");
+            Exemplaire exemplaireACreer = new Exemplaire(numParution, dtpParution.Value, txbImage.Text, "00001");
             exemplaireACreer.Document = laRevue.getInstanceDocument();
 
             try
@@ -355,8 +433,13 @@ namespace Mediatek86
         }
 
 
+
         #endregion
 
-
+        /*private void cbxGenres_Enter(object sender, EventArgs e)
+        {
+            MessageBox.Show("Action interdite");
+        }
+        */
     }
 }

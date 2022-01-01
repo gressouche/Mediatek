@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Mediatek86.metier
 {
     class Document
@@ -22,7 +17,7 @@ namespace Mediatek86.metier
         internal Categorie LaCategorie { get; set; }
         internal Rayon LeRayon { get; set; }
 
-        public Document getInstance()
+        public Document getInstanceDocument()
         {
             return this;
         }

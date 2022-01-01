@@ -59,6 +59,7 @@ namespace Mediatek86
             this.label6 = new System.Windows.Forms.Label();
             this.txbTitre = new System.Windows.Forms.TextBox();
             this.grpRechercheCode = new System.Windows.Forms.GroupBox();
+            this.pbxImage = new System.Windows.Forms.PictureBox();
             this.lblPublic = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.lblRayon = new System.Windows.Forms.Label();
@@ -95,7 +96,7 @@ namespace Mediatek86
             this.label15 = new System.Windows.Forms.Label();
             this.txbIdRevue = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.pbxImage = new System.Windows.Forms.PictureBox();
+            this.btnTousDomaines = new System.Windows.Forms.Button();
             this.tabOngletsApplication.SuspendLayout();
             this.tabTitres.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTitres)).BeginInit();
@@ -103,10 +104,10 @@ namespace Mediatek86
             this.grpRechercheTitre.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvLivres)).BeginInit();
             this.grpRechercheCode.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxImage)).BeginInit();
             this.tabReceptionRevue.SuspendLayout();
             this.grpParution.SuspendLayout();
             this.grpRevue.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxImage)).BeginInit();
             this.SuspendLayout();
             // 
             // tabOngletsApplication
@@ -125,6 +126,7 @@ namespace Mediatek86
             // 
             // tabTitres
             // 
+            this.tabTitres.Controls.Add(this.btnTousDomaines);
             this.tabTitres.Controls.Add(this.label4);
             this.tabTitres.Controls.Add(this.dgvTitres);
             this.tabTitres.Controls.Add(this.label2);
@@ -150,6 +152,8 @@ namespace Mediatek86
             // 
             // dgvTitres
             // 
+            this.dgvTitres.AllowUserToAddRows = false;
+            this.dgvTitres.AllowUserToDeleteRows = false;
             this.dgvTitres.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTitres.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.idTitre,
@@ -160,7 +164,7 @@ namespace Mediatek86
             this.genre});
             this.dgvTitres.Location = new System.Drawing.Point(27, 136);
             this.dgvTitres.Name = "dgvTitres";
-            this.dgvTitres.Size = new System.Drawing.Size(735, 227);
+            this.dgvTitres.Size = new System.Drawing.Size(735, 312);
             this.dgvTitres.TabIndex = 2;
             // 
             // idTitre
@@ -292,6 +296,7 @@ namespace Mediatek86
             this.cbxGenres.Size = new System.Drawing.Size(165, 21);
             this.cbxGenres.TabIndex = 6;
             this.cbxGenres.SelectedIndexChanged += new System.EventHandler(this.cbxGenres_SelectedIndexChanged);
+            //this.cbxGenres.Enter += new System.EventHandler(this.cbxGenres_Enter);
             // 
             // label14
             // 
@@ -305,6 +310,8 @@ namespace Mediatek86
             // 
             // dgvLivres
             // 
+            this.dgvLivres.AllowUserToAddRows = false;
+            this.dgvLivres.AllowUserToDeleteRows = false;
             this.dgvLivres.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvLivres.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.idDoc,
@@ -399,6 +406,14 @@ namespace Mediatek86
             this.grpRechercheCode.TabIndex = 17;
             this.grpRechercheCode.TabStop = false;
             this.grpRechercheCode.Text = "RECHERCHE PAR CODE DOCUMENT";
+            // 
+            // pbxImage
+            // 
+            this.pbxImage.Location = new System.Drawing.Point(619, 19);
+            this.pbxImage.Name = "pbxImage";
+            this.pbxImage.Size = new System.Drawing.Size(140, 210);
+            this.pbxImage.TabIndex = 21;
+            this.pbxImage.TabStop = false;
             // 
             // lblPublic
             // 
@@ -752,13 +767,16 @@ namespace Mediatek86
             this.label3.TabIndex = 5;
             this.label3.Text = "Réception d\'un numéro de presse";
             // 
-            // pbxImage
+            // btnTousDomaines
             // 
-            this.pbxImage.Location = new System.Drawing.Point(619, 19);
-            this.pbxImage.Name = "pbxImage";
-            this.pbxImage.Size = new System.Drawing.Size(140, 210);
-            this.pbxImage.TabIndex = 21;
-            this.pbxImage.TabStop = false;
+            this.btnTousDomaines.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTousDomaines.Location = new System.Drawing.Point(489, 75);
+            this.btnTousDomaines.Name = "btnTousDomaines";
+            this.btnTousDomaines.Size = new System.Drawing.Size(196, 23);
+            this.btnTousDomaines.TabIndex = 5;
+            this.btnTousDomaines.Text = "Tous les domaines";
+            this.btnTousDomaines.UseVisualStyleBackColor = true;
+            this.btnTousDomaines.Click += new System.EventHandler(this.btnTousDomaines_Click);
             // 
             // FrmMediatek
             // 
@@ -779,13 +797,13 @@ namespace Mediatek86
             ((System.ComponentModel.ISupportInitialize)(this.dgvLivres)).EndInit();
             this.grpRechercheCode.ResumeLayout(false);
             this.grpRechercheCode.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxImage)).EndInit();
             this.tabReceptionRevue.ResumeLayout(false);
             this.tabReceptionRevue.PerformLayout();
             this.grpParution.ResumeLayout(false);
             this.grpParution.PerformLayout();
             this.grpRevue.ResumeLayout(false);
             this.grpRevue.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxImage)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -859,6 +877,7 @@ namespace Mediatek86
         private System.Windows.Forms.ComboBox cbxRayons;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.PictureBox pbxImage;
+        private System.Windows.Forms.Button btnTousDomaines;
     }
 }
 

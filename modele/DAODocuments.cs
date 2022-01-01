@@ -1,10 +1,6 @@
 ﻿using Mediatek86.metier;
-using MySql.Data.MySqlClient;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Mediatek86.bdd
 {
@@ -79,7 +75,7 @@ namespace Mediatek86.bdd
 
 
         /// <summary>
-        /// Retourne tous les rayons à partir de la BDD
+        /// Retourne toutes les catégories de public à partir de la BDD
         /// </summary>
         /// <returns>Collection d'objets Rayon</returns>
         public static List<Categorie> getAllPublics()

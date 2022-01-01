@@ -100,6 +100,7 @@
     <Compile Include="metier\Livre.cs" />
     <Compile Include="metier\Exemplaire.cs" />
     <Compile Include="metier\Revue.cs" />
+    <Compile Include="modele\IConnexion.cs" />
     <Compile Include="vue\FrmMediatek.cs">
       <SubType>Form</SubType>
     </Compile>

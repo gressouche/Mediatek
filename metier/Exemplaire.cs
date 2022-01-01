@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mediatek86.metier
 {
@@ -13,13 +9,13 @@ namespace Mediatek86.metier
             this.Numero = numero;
             this.DateAchat = dateAchat;
             this.Photo = photo;
-            this.Etat = etat;
+            this.IdEtat = etat;
         }
 
         public int Numero { get; set; }
         public string Photo { get; set; }
         public DateTime DateAchat { get; set; }
         internal Document Document { get; set; }
-        public string Etat { get; set; }
+        public string IdEtat { get; set; }
     }
 }
